@@ -1,4 +1,4 @@
-import { getErrorMessage } from '@/helpers/getErrorMessage';
+import { getErrorMessage } from '@/helpers/get-error-message';
 import { User } from '@/types/backend.types';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { createUser } from './api/create-user';

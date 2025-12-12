@@ -1,8 +1,10 @@
 import { AuthProvider } from '@/auth/auth-context';
+import { AppPaperProvider } from '@/providers/app-paper-provider';
+import { AppThemeProvider } from '@/providers/app-theme-provider';
+import '@/styles/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const queryClient = new QueryClient();
@@ -12,11 +14,13 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthProvider>
-          <PaperProvider>
-            <SafeAreaProvider>
-              <Slot />
-            </SafeAreaProvider>
-          </PaperProvider>
+          <AppThemeProvider>
+            <AppPaperProvider>
+              <SafeAreaProvider>
+                <Slot />
+              </SafeAreaProvider>
+            </AppPaperProvider>
+          </AppThemeProvider>
         </AuthProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>

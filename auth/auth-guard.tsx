@@ -1,4 +1,5 @@
 import { useAuth } from '@/auth/auth-context';
+import { useAppTheme } from '@/providers/app-theme-provider';
 import { useRouter, useSegments } from 'expo-router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -8,6 +9,7 @@ export function AuthGuard({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const { user, isLoadingUser } = useAuth();
   const segments = useSegments();
+  const theme = useAppTheme();
 
   useEffect(() => {
     const isAuthenticated = !!user;
@@ -27,7 +29,7 @@ export function AuthGuard({ children }: PropsWithChildren) {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator color="#007AFF" size="large" />
+        <ActivityIndicator color={theme?.colors?.primary || 'blue'} size="large" />
       </View>
     );
   }

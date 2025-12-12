@@ -2,22 +2,24 @@
 import { HeartIcon } from '@/assets/svgs/heart-icon';
 import { HomeIcon } from '@/assets/svgs/home-icon';
 import { UserIcon } from '@/assets/svgs/user-icon.';
+import { useAppTheme } from '@/providers/app-theme-provider';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
+  const theme = useAppTheme();
+
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: '#f5f5f5' },
-        headerShadowVisible: false,
+        headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#f5f5f5',
-          borderTopWidth: 0,
-          elevation: 0,
+          backgroundColor: theme.colors.background.light,
+          borderColor: theme.colors.border,
+          elevation: 2,
           shadowOpacity: 0,
         },
-        tabBarActiveTintColor: '#E81948',
-        tabBarInactiveTintColor: '#696969',
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.text.muted,
       }}
     >
       <Tabs.Screen

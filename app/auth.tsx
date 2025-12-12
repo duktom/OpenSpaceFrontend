@@ -1,11 +1,12 @@
 import { useAuth } from '@/auth/auth-context';
 import { TextError } from '@/components/text-error';
+import { useAppTheme } from '@/providers/app-theme-provider';
 import { authSchema } from '@/schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { z } from 'zod';
 
@@ -17,6 +18,7 @@ export default function AuthScreen() {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const theme = useAppTheme();
 
   const {
     control,
@@ -46,10 +48,13 @@ export default function AuthScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={style.container}
+      className="flex-1"
     >
-      <View style={style.content}>
-        <Text style={style.title} variant="headlineMedium">
+      <View
+        className="flex-1 justify-center p-4 gap-1"
+        style={{ backgroundColor: theme.colors.background.base }}
+      >
+        <Text className="!text-center mb-8" variant="headlineMedium">
           {isSignUp ? 'Create Account' : 'Welcome back!'}
         </Text>
 
@@ -66,7 +71,6 @@ export default function AuthScreen() {
                 label="Email"
                 mode="outlined"
                 placeholder="example@gmail.com"
-                style={style.input}
                 value={value}
                 onChangeText={onChange}
               />
@@ -88,7 +92,6 @@ export default function AuthScreen() {
                 label="Password"
                 mode="outlined"
                 placeholder="******"
-                style={style.input}
                 value={value}
                 onChangeText={onChange}
               />
@@ -103,43 +106,14 @@ export default function AuthScreen() {
         {apiError ? <TextError>{apiError}</TextError> : null}
 
         {/* BUTTONS */}
-        <Button mode="contained" style={style.signButton} onPress={handleSubmit(onSubmit)}>
+        <Button className="!mt-5" mode="contained" onPress={handleSubmit(onSubmit)}>
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </Button>
 
-        <Button
-          mode="text"
-          style={style.switchModeButton}
-          onPress={() => setIsSignUp((prev) => !prev)}
-        >
+        <Button mode="text" onPress={() => setIsSignUp((prev) => !prev)}>
           {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
         </Button>
       </View>
     </KeyboardAvoidingView>
   );
 }
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  content: {
-    flex: 1,
-    padding: 16,
-    justifyContent: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  input: {
-    marginBottom: 8,
-  },
-  signButton: {
-    marginTop: 8,
-  },
-  switchModeButton: {
-    marginTop: 16,
-  },
-});

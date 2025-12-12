@@ -1,8 +1,8 @@
+import { useAppTheme } from '@/providers/app-theme-provider';
 import { Text } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 export function TextError({ children }: { children: string }) {
-  const theme = useTheme();
+  const theme = useAppTheme();
 
-  return <Text style={{ color: theme.colors.error }}>{children}</Text>;
+  return <Text style={{ color: theme.colors.text.danger }}>{children}</Text>;
 }
