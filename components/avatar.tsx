@@ -12,7 +12,7 @@ export function Avatar({ isVerified, style, ...restProps }: AvatarProps) {
   return (
     <View style={{ position: 'relative', width: 52, height: 52 }}>
       <Image
-        resizeMode="contain"
+        resizeMode="cover"
         style={[
           {
             width: '100%',
