@@ -13,14 +13,13 @@ import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-acc
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { Job } from '@/types/backend.types';
 import { useQuery } from '@tanstack/react-query';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
   const jobId = Array.isArray(id) ? id[0] : id;
-  const router = useRouter();
   const theme = useAppTheme();
   const {
     data: job,
