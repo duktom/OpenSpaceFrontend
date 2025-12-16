@@ -61,10 +61,17 @@ export default function HomeScreen() {
       <View style={{ backgroundColor: theme.colors.background.light }}>
         <View className="flex items-center justify-center">
           <Searchbar
+            inputStyle={{
+              fontSize: 16,
+              lineHeight: 1,
+              minHeight: 40,
+              height: 'auto',
+            }}
             placeholder="Search by company name.."
             style={{
               width: '80%',
               margin: 20,
+              height: 45,
               borderColor: theme.colors.border,
               borderWidth: 1,
               backgroundColor: theme.colors.elevation.level0,
