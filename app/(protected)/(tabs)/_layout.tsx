@@ -1,6 +1,6 @@
 // import HomeIcon from '@/assets/svgs/home-icon.svg';
-import { HeartIcon } from '@/assets/svgs/heart-icon';
 import { HomeIcon } from '@/assets/svgs/home-icon';
+import { OutlineHeartIcon } from '@/assets/svgs/outline-heart-icon';
 import { UserIcon } from '@/assets/svgs/user-icon.';
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { Tabs } from 'expo-router';
@@ -33,7 +33,9 @@ export default function TabsLayout() {
         name="favorites"
         options={{
           title: 'Favorites',
-          tabBarIcon: ({ color, size }) => <HeartIcon color={color} height={size} width={size} />,
+          tabBarIcon: ({ color, size }) => (
+            <OutlineHeartIcon color={color} height={size} width={size} />
+          ),
         }}
       />
       <Tabs.Screen

@@ -1,8 +1,11 @@
-import mockImage from '@/assets/images/mock-image.png';
+import mockJobImage from '@/assets/images/mock-job-image.png';
+import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { Image, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { Rating } from './rating';
 
 export function JobOffersList() {
   return (
@@ -14,37 +17,44 @@ export function JobOffersList() {
   );
 }
 
+const FAKE_JOB_ID = '1';
+
 function JobOffer() {
   const theme = useAppTheme();
+  const router = useRouter();
 
-  const formatter = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  });
+  const redirectToJobDetails = () => {
+    router.push(`/job/${FAKE_JOB_ID}`);
+  };
 
   return (
-    <View
+    <TouchableOpacity
       style={{
         alignItems: 'center',
         flex: 1,
         backgroundColor: theme.colors.background.light,
-        paddingTop: 10,
         paddingBottom: 10,
         borderRadius: 10,
+        borderWidth: 1,
+        borderColor: theme.colors.border,
       }}
+      onPress={redirectToJobDetails}
     >
       <Image
         resizeMode="contain"
-        source={mockImage}
-        style={getImageSizeAccordingToScreenWidth(mockImage, 0.85)}
+        source={mockJobImage}
+        style={{
+          ...getImageSizeAccordingToScreenWidth(mockJobImage, 0.91),
+          borderTopRightRadius: 10,
+          borderTopLeftRadius: 10,
+        }}
       />
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginTop: 6,
-          width: '90%',
+          width: '95%',
         }}
       >
         <View>
@@ -58,24 +68,13 @@ function JobOffer() {
             {'Al. Jerozolimskie 195A, 02-222 Warszawa'}
           </Text>
           <Text className="!font-bold mt-2" variant="bodyLarge">
-            {formatter.format(6000)}
+            {getFormattedCurrency(6000)}
           </Text>
         </View>
         <View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 3,
-            }}
-          >
-            <Text>4.8</Text>
-            <Text>⭐</Text>
-          </View>
+          <Rating rating={4.8} />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

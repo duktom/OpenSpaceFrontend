@@ -1,10 +1,7 @@
+import { api } from '@/api/api';
 import { getErrorMessage } from '@/helpers/get-error-message';
-import { User } from '@/types/backend.types';
+import { LoginCredentialsSchema, RegisterCredentialsSchema, User } from '@/types/backend.types';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { createUser } from './api/create-user';
-import { fetchUser } from './api/fetch-user';
-import { userLogin } from './api/user-login';
-import { userLogout } from './api/user-logout';
 
 type TAuthContext = {
   user: User | null;
@@ -31,7 +28,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const getAndSetUser = async (shouldDisplayError: boolean = true) => {
     setIsLoadingUser(true);
     try {
-      const user = await fetchUser();
+      const user = await api.auth.getUser();
       setUser(user);
       setIsLoadingUser(false);
     } catch (error) {
@@ -51,7 +48,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const login: TAuthContext['login'] = async (email: string, password: string) => {
     try {
-      await userLogin({ email, password });
+      const loginCredentials = LoginCredentialsSchema.parse({ email, password });
+      await api.auth.login(loginCredentials);
       await getAndSetUser();
       return null;
     } catch (error) {
@@ -64,7 +62,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     password: string
   ) => {
     try {
-      const createdUser = await createUser({ email, password });
+      const registerCredentials = RegisterCredentialsSchema.parse({ email, password });
+      const createdUser = await api.auth.register(registerCredentials);
       setUser(createdUser);
       await login(email, password);
       return null;
@@ -75,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const logout: TAuthContext['logout'] = async () => {
     try {
-      await userLogout();
+      await api.auth.logout();
       setUser(null);
     } catch (error) {
       const errorMessage = getErrorMessage(error);

@@ -1,4 +1,4 @@
-import mockImage from '@/assets/images/mock-image.png';
+import mockJobImage from '@/assets/images/mock-job-image.png';
 import { Image, View } from 'react-native';
 
 export function CompanyProfilesList() {
@@ -6,7 +6,7 @@ export function CompanyProfilesList() {
     <>
       {Array.from({ length: 20 }).map((_, index) => (
         <View key={index}>
-          <Image source={mockImage} />
+          <Image source={mockJobImage} />
         </View>
       ))}
     </>

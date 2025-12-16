@@ -12,6 +12,7 @@ type AppColors = {
   };
   text: {
     base: string;
+    alwaysWhite: string;
     danger: string;
     warning: string;
     success: string;
@@ -61,6 +62,7 @@ const DARK_THEME: AppTheme = {
     },
     text: {
       base: 'hsl(0 0% 95%)',
+      alwaysWhite: 'hsl(0, 0%, 95%)',
       danger: 'hsl(8, 52%, 65%)',
       warning: 'hsl(51, 36%, 50%)',
       success: 'hsl(149, 34%, 54%)',
@@ -90,6 +92,7 @@ const LIGHT_THEME: AppTheme = {
     },
     text: {
       base: 'hsl(0 0% 5%)',
+      alwaysWhite: 'hsl(0, 0%, 95%)',
       danger: 'hsl(7, 100%, 65%)',
       warning: 'hsl(50, 100%, 37%)',
       success: 'hsl(155, 100%, 38%)',
