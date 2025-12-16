@@ -5,6 +5,7 @@ import { STATIC_COLORS, useAppTheme } from './app-theme-provider';
 // Dark Theme
 const MD3_DARK_THEME: MD3Theme = {
   ...MD3DarkTheme,
+  roundness: 6,
   colors: {
     // Main (Updated)
     primary: STATIC_COLORS.PRIMARY,
@@ -65,6 +66,7 @@ const MD3_DARK_THEME: MD3Theme = {
 // Light Theme
 const MD3_LIGHT_THEME: MD3Theme = {
   ...MD3LightTheme,
+  roundness: 6,
   colors: {
     // Main (Updated)
     primary: STATIC_COLORS.PRIMARY,

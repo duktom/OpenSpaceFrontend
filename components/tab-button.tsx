@@ -1,6 +1,6 @@
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { FC } from 'react';
-import { Pressable, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Text, TextProps } from 'react-native-paper';
 import { SvgProps } from 'react-native-svg';
 
@@ -16,7 +16,7 @@ export function TabButton({ title, selected, onPress, titleProps, Icon }: TabBut
   const theme = useAppTheme();
 
   return (
-    <Pressable onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
       <View
         style={[
           {
@@ -53,6 +53,6 @@ export function TabButton({ title, selected, onPress, titleProps, Icon }: TabBut
           {title}
         </Text>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
