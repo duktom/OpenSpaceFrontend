@@ -1,19 +1,19 @@
 import { z } from 'zod';
 
 const schema = z.object({
-  // EXPO_PUBLIC_EXAMPLE: z.string(),
+  EXPO_PUBLIC_BACKEND_BASE_URL: z.url(),
 });
 
 const safeParseEnvObj = schema.safeParse(process.env);
 
 if (!safeParseEnvObj.success) {
-  console.error('❌ Invalid or missing environment variables:');
+  console.log('❌ Invalid or missing environment variables:');
   safeParseEnvObj.error.issues.forEach((error) => {
-    console.error(`- ${error.path.join('.')}: ${error.message}`);
+    console.log(`- ${error.path.join('.')}: ${error.message}`);
   });
-  throw new Error('Environment variables validation failed');
 } else {
   console.info('✅ All environment variables are valid.');
 }
 
-export const env = safeParseEnvObj.data;
+export const env = safeParseEnvObj.data as z.infer<typeof schema>;
+export const envError = safeParseEnvObj.success ? null : safeParseEnvObj.error;

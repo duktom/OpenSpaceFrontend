@@ -1,5 +1,5 @@
 import { api } from '@/api/api';
-import { Job } from '@/types/backend.types';
+import { Job } from '@/types/backend/jobs/job';
 import { useState } from 'react';
 import { LikeButton } from './like-button';
 

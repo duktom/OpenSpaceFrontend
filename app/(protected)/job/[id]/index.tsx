@@ -11,7 +11,7 @@ import { SafeView } from '@/components/safe-view';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { Job } from '@/types/backend.types';
+import { Job } from '@/types/backend/jobs/job';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';

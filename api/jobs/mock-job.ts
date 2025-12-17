@@ -1,4 +1,4 @@
-import { JobInput } from '@/types/backend.types';
+import { JobInput } from '@/types/backend/jobs/job';
 
 const date = new Date();
 date.setFullYear(date.getFullYear() - 1);

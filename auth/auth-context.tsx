@@ -1,11 +1,12 @@
 import { api } from '@/api/api';
 import { getErrorMessage } from '@/helpers/get-error-message';
-import { LoginCredentialsSchema, RegisterCredentialsSchema, User } from '@/types/backend.types';
+import { LoginCredentialsSchema } from '@/types/backend/account/login';
+import { RegisterCredentialsSchema } from '@/types/backend/account/register';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {
-  user: User | null;
-  isLoadingUser: boolean;
+  isLoading: boolean;
   registerThenLogin: (email: string, password: string) => Promise<string | null>;
   login: (email: string, password: string) => Promise<string | null>;
   logout: () => Promise<void>;
@@ -22,18 +23,17 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<TAuthContext['user']>(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getAndSetUser = async (shouldDisplayError: boolean = true) => {
-    setIsLoadingUser(true);
+  const getAndSetCurrentUser = async (shouldDisplayError: boolean = true) => {
+    setIsLoading(true);
     try {
-      const user = await api.auth.getUser();
-      setUser(user);
-      setIsLoadingUser(false);
+      const data = await api.auth.getUser();
+      await saveAuthToken(data.access_token);
+      setIsLoading(false);
     } catch (error) {
-      setUser(null);
-      setIsLoadingUser(false);
+      await deleteAuthToken();
+      setIsLoading(false);
       if (!shouldDisplayError) return;
       const errorMessage = getErrorMessage(error);
       console.error('Error fetching user: ', errorMessage);
@@ -42,15 +42,15 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     (async () => {
-      await getAndSetUser(false);
+      await getAndSetCurrentUser(false);
     })();
   }, []);
 
   const login: TAuthContext['login'] = async (email: string, password: string) => {
     try {
       const loginCredentials = LoginCredentialsSchema.parse({ email, password });
-      await api.auth.login(loginCredentials);
-      await getAndSetUser();
+      const data = await api.auth.login(loginCredentials);
+      await saveAuthToken(data.access_token);
       return null;
     } catch (error) {
       return getErrorMessage(error);
@@ -63,8 +63,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   ) => {
     try {
       const registerCredentials = RegisterCredentialsSchema.parse({ email, password });
-      const createdUser = await api.auth.register(registerCredentials);
-      setUser(createdUser);
+      await api.auth.register(registerCredentials);
       await login(email, password);
       return null;
     } catch (error) {
@@ -75,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const logout: TAuthContext['logout'] = async () => {
     try {
       await api.auth.logout();
-      setUser(null);
+      await deleteAuthToken();
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       console.error('Error logging out: ', errorMessage);
@@ -85,11 +84,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        user,
         registerThenLogin,
         login,
         logout,
-        isLoadingUser,
+        isLoading,
       }}
     >
       {children}

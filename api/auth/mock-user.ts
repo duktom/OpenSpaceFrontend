@@ -1,4 +1,4 @@
-import { User } from '@/types/backend.types';
+import { User } from '@/types/backend/account/user';
 
 export const mockUser: User = {
   id: '1',

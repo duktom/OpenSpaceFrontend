@@ -1,8 +1,5 @@
-import { RegisterCredentials, User } from '@/types/backend.types';
-import { mockUser } from './mock-user';
+import { RegisterCredentials } from '@/types/backend/account/register';
 
-export const createUser = async (userData: RegisterCredentials): Promise<User | null> => {
-  console.info('Fake create user | mock user returned');
-
-  return mockUser;
+export const createUser = async (userData: RegisterCredentials): Promise<void> => {
+  console.info('Fake create user | nothing happen');
 };

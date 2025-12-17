@@ -1,6 +1,7 @@
 import { AuthProvider } from '@/auth/auth-context';
 import { AppPaperProvider } from '@/providers/app-paper-provider';
 import { AppThemeProvider } from '@/providers/app-theme-provider';
+import { EnvProvider } from '@/providers/env-provider';
 import '@/styles/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot } from 'expo-router';
@@ -11,18 +12,20 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <AuthProvider>
-          <AppThemeProvider>
-            <AppPaperProvider>
-              <SafeAreaProvider>
-                <Slot />
-              </SafeAreaProvider>
-            </AppPaperProvider>
-          </AppThemeProvider>
-        </AuthProvider>
-      </GestureHandlerRootView>
-    </QueryClientProvider>
+    <EnvProvider>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <AuthProvider>
+            <AppThemeProvider>
+              <AppPaperProvider>
+                <SafeAreaProvider>
+                  <Slot />
+                </SafeAreaProvider>
+              </AppPaperProvider>
+            </AppThemeProvider>
+          </AuthProvider>
+        </GestureHandlerRootView>
+      </QueryClientProvider>
+    </EnvProvider>
   );
 }

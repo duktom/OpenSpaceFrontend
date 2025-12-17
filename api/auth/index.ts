@@ -1,10 +1,10 @@
 import { createUser } from './create-user';
-import { fetchUser } from './fetch-user';
+import { fetchCurrentUser } from './fetch-current-user';
 import { userLogin } from './user-login';
 import { userLogout } from './user-logout';
 
 export const authApi = {
-  getUser: fetchUser,
+  getUser: fetchCurrentUser,
   login: userLogin,
   register: createUser,
   logout: userLogout,

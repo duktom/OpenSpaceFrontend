@@ -1,4 +1,4 @@
-import { Job, JobSchema } from '@/types/backend.types';
+import { Job, JobSchema } from '@/types/backend/jobs/job';
 import { mockJob } from './mock-job';
 
 export const getJob = async (jobId: Job['id']): Promise<Job> => {
