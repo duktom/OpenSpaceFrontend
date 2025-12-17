@@ -7,6 +7,7 @@ import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {
   isLoading: boolean;
+  isAuthenticated: boolean;
   registerThenLogin: (email: string, password: string) => Promise<string | null>;
   login: (email: string, password: string) => Promise<string | null>;
   logout: () => Promise<void>;
@@ -24,15 +25,18 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const getAndSetCurrentUser = async (shouldDisplayError: boolean = true) => {
     setIsLoading(true);
     try {
       const data = await api.auth.getUser();
       await saveAuthToken(data.access_token);
+      setIsAuthenticated(true);
       setIsLoading(false);
     } catch (error) {
       await deleteAuthToken();
+      setIsAuthenticated(false);
       setIsLoading(false);
       if (!shouldDisplayError) return;
       const errorMessage = getErrorMessage(error);
@@ -51,6 +55,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       const loginCredentials = LoginCredentialsSchema.parse({ email, password });
       const data = await api.auth.login(loginCredentials);
       await saveAuthToken(data.access_token);
+      setIsAuthenticated(true);
       return null;
     } catch (error) {
       return getErrorMessage(error);
@@ -75,6 +80,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     try {
       await api.auth.logout();
       await deleteAuthToken();
+      setIsAuthenticated(false);
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       console.error('Error logging out: ', errorMessage);
@@ -88,6 +94,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         login,
         logout,
         isLoading,
+        isAuthenticated,
       }}
     >
       {children}
