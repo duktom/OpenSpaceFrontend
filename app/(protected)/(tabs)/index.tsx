@@ -10,7 +10,7 @@ import { TabButton } from '@/components/tab-button';
 import { TabsContainer } from '@/components/tabs-container';
 import { ToggleThemeButton } from '@/components/toggle-theme-button';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { FC, useState } from 'react';
+import { FC, Fragment, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SvgProps } from 'react-native-svg';
@@ -106,12 +106,12 @@ export default function HomeScreen() {
           marginRight: 16,
         }}
       >
-        {/* {TAB_BUTTONS_DATA.map((tabButtonData) => {
+        {TAB_BUTTONS_DATA.map((tabButtonData) => {
           if (selectedTab !== tabButtonData.value) {
             return <Fragment key={tabButtonData.value}></Fragment>;
           }
           return <tabButtonData.Content key={tabButtonData.value} />;
-        })} */}
+        })}
         <LogoutButton />
         <ToggleThemeButton />
       </ScrollView>
