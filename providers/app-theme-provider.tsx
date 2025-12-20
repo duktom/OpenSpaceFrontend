@@ -35,7 +35,7 @@ type AppTheme = {
   colors: AppColors;
 };
 
-type AppThemeContextType = AppTheme & {
+export type AppThemeContextType = AppTheme & {
   mode: ColorMode;
   toggleTheme: () => void;
 };

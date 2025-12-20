@@ -1,8 +1,9 @@
 import { VerifiedIcon } from '@/assets/svgs/verified-icon';
-import { Image, ImageProps, View } from 'react-native';
+import { ComponentProps } from 'react';
+import { Image, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-type AvatarProps = ImageProps & {
+type AvatarProps = ComponentProps<typeof Image> & {
   isVerified?: boolean;
 };
 

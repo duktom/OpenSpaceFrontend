@@ -1,9 +1,17 @@
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { PropsWithChildren } from 'react';
-import { Text } from 'react-native';
+import { ComponentProps } from 'react';
+import { Text } from 'react-native-paper';
 
-export function TextError({ children }: Required<PropsWithChildren>) {
+type TextErrorProps = ComponentProps<typeof Text> & {
+  children: string | number;
+};
+
+export function TextError({ style, children, ...restProps }: TextErrorProps) {
   const theme = useAppTheme();
 
-  return <Text style={{ color: theme.colors.text.danger }}>{children}</Text>;
+  return (
+    <Text style={[style, { color: theme.colors.text.danger }]} {...restProps}>
+      {children}
+    </Text>
+  );
 }

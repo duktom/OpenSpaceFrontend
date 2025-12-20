@@ -1,7 +1,8 @@
-import { View, ViewProps } from 'react-native';
+import { ComponentProps } from 'react';
+import { View } from 'react-native';
 import { Text, TextProps } from 'react-native-paper';
 
-type RatingProps = ViewProps & {
+type RatingProps = ComponentProps<typeof View> & {
   rating: number;
   textProps?: Omit<TextProps<never>, 'children'>;
 };

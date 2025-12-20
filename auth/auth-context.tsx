@@ -1,16 +1,27 @@
 import { api } from '@/api/api';
 import { getErrorMessage } from '@/helpers/get-error-message';
 import { LoginCredentialsSchema } from '@/types/backend/account/login';
-import { RegisterCredentialsSchema } from '@/types/backend/account/register';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { deleteAuthToken, saveAuthToken } from './token-storage';
+import { z } from 'zod';
+import {
+  RegisterUserCredentials,
+  RegisterUserCredentialsSchema,
+} from '@/types/backend/account/register-user';
+import {
+  RegisterCompanyCredentials,
+  RegisterCompanyCredentialsSchema,
+} from '@/types/backend/account/register-company';
 
 type TAuthContext = {
   isLoading: boolean;
   isAuthenticated: boolean;
-  registerThenLogin: (email: string, password: string) => Promise<string | null>;
-  login: (email: string, password: string) => Promise<string | null>;
-  logout: () => Promise<void>;
+  registerUserThenLogin: (registerUserData: RegisterUserCredentials) => Promise<string | null>;
+  registerCompanyThenLogin: (
+    registerCompanyData: RegisterCompanyCredentials
+  ) => Promise<string | null>;
+  login: (loginData: z.infer<typeof LoginCredentialsSchema>) => Promise<string | null>;
+  logout: () => Promise<string | null>;
 };
 
 const AuthContext = createContext<TAuthContext | null>(null);
@@ -50,9 +61,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
     })();
   }, []);
 
-  const login: TAuthContext['login'] = async (email: string, password: string) => {
+  const login: TAuthContext['login'] = async (loginData) => {
     try {
-      const loginCredentials = LoginCredentialsSchema.parse({ email, password });
+      const loginCredentials = LoginCredentialsSchema.parse(loginData);
       const data = await api.auth.login(loginCredentials);
       await saveAuthToken(data.access_token);
       setIsAuthenticated(true);
@@ -62,14 +73,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const registerThenLogin: TAuthContext['registerThenLogin'] = async (
-    email: string,
-    password: string
+  const registerUserThenLogin: TAuthContext['registerUserThenLogin'] = async (registerUserData) => {
+    try {
+      const registerCredentials = RegisterUserCredentialsSchema.parse(registerUserData);
+      await api.auth.register.user(registerCredentials);
+      await login(registerCredentials);
+      return null;
+    } catch (error) {
+      return getErrorMessage(error);
+    }
+  };
+
+  const registerCompanyThenLogin: TAuthContext['registerCompanyThenLogin'] = async (
+    registerCompanyData
   ) => {
     try {
-      const registerCredentials = RegisterCredentialsSchema.parse({ email, password });
-      await api.auth.register(registerCredentials);
-      await login(email, password);
+      const registerCredentials = RegisterCompanyCredentialsSchema.parse(registerCompanyData);
+      await api.auth.register.company(registerCredentials);
+      await login(registerCredentials);
       return null;
     } catch (error) {
       return getErrorMessage(error);
@@ -81,20 +102,21 @@ export function AuthProvider({ children }: PropsWithChildren) {
       await api.auth.logout();
       await deleteAuthToken();
       setIsAuthenticated(false);
+      return null;
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
-      console.error('Error logging out: ', errorMessage);
+      return getErrorMessage(error);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
-        registerThenLogin,
-        login,
-        logout,
         isLoading,
         isAuthenticated,
+        login,
+        logout,
+        registerUserThenLogin,
+        registerCompanyThenLogin,
       }}
     >
       {children}

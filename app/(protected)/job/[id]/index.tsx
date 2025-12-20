@@ -5,7 +5,8 @@ import { Avatar } from '@/components/avatar';
 import { ErrorPage } from '@/components/error/error-page';
 import { FavoriteJobButton } from '@/components/favorite-job-button';
 import { GoBackButton } from '@/components/go-back-button';
-import { LoadingIcon } from '@/components/loading/loading-icon';
+import { LoadingIconView } from '@/components/loading/loading-icon-view';
+import { OpacityButton } from '@/components/opacity-button';
 import { Rating } from '@/components/rating';
 import { SafeView } from '@/components/safe-view';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
@@ -14,7 +15,7 @@ import { useAppTheme } from '@/providers/app-theme-provider';
 import { Job } from '@/types/backend/jobs/job';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 
 export default function JobDetailsScreen() {
@@ -35,7 +36,7 @@ export default function JobDetailsScreen() {
     alert('Functionality not implemented yet!');
   };
 
-  if (isLoading) return <LoadingIcon />;
+  if (isLoading) return <LoadingIconView />;
   if (isError || !job) return <ErrorPage error={error} />;
 
   return (
@@ -133,19 +134,9 @@ export default function JobDetailsScreen() {
           </Text>
           <Text variant="bodySmall">Per month</Text>
         </View>
-        <TouchableOpacity
-          className="w-1/2 !rounded-lg"
-          style={{
-            backgroundColor: theme.colors.primary,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={applyToJob}
-        >
-          <Text style={{ color: theme.colors.text.alwaysWhite }} variant="labelLarge">
-            Apply
-          </Text>
-        </TouchableOpacity>
+        <OpacityButton className="w-1/2" onPress={applyToJob}>
+          Apply
+        </OpacityButton>
       </View>
     </SafeView>
   );
