@@ -6,27 +6,32 @@ import {
   LoginResponseSchema,
 } from '@/types/backend/account/login';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { AxiosRequestConfig } from 'axios';
 import { axiosInstance } from '../axios-instance';
+import { AUTH_KEYS } from './keys';
 
-export const userLogin = async (userData: LoginCredentials): Promise<LoginResponse> => {
+export const login = async (
+  userData: LoginCredentials,
+  config?: AxiosRequestConfig
+): Promise<LoginResponse> => {
   try {
-    const { data } = await axiosInstance.post<LoginResponse>('/account/login', userData);
+    const { data } = await axiosInstance.post<LoginResponse>('/account/login', userData, config);
     return LoginResponseSchema.parse(data);
   } catch (error) {
     throw getApiErrorMessages(error);
   }
 };
 
-export const useUserLogin = (
+export const useLoginMutation = (
   options: Omit<
     UseMutationOptions<LoginResponse, ApiError, LoginCredentials>,
     'mutationFn' | 'onError'
   > = {}
 ) => {
   return useMutation({
-    mutationFn: userLogin,
+    mutationFn: (data) => login(data),
+    mutationKey: AUTH_KEYS.login(),
     onError: getApiErrorMessages,
-    mutationKey: ['user', 'login'],
     ...options,
   });
 };

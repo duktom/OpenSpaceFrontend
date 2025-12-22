@@ -1,34 +1,30 @@
 import { useAuth } from '@/auth/auth-context';
-import { useAppTheme } from '@/providers/app-theme-provider';
+import { LoadingIconView } from '@/components/loading/loading-icon-view';
 import { useRouter, useSegments } from 'expo-router';
-import { PropsWithChildren, useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { PropsWithChildren, useEffect, useMemo } from 'react';
 
 export function AuthGuard({ children }: PropsWithChildren) {
   const router = useRouter();
-  const { isLoading, isAuthenticated } = useAuth();
   const segments = useSegments();
-  const theme = useAppTheme();
+  const { isAuthenticated } = useAuth();
+
+  const inLoginRoute = segments[0] === 'auth';
+
+  const canRender = useMemo(() => {
+    if (!isAuthenticated && inLoginRoute) return true; // login/register
+    if (isAuthenticated && !inLoginRoute) return true; // protected
+    return false;
+  }, [isAuthenticated, inLoginRoute]);
 
   useEffect(() => {
-    if (isLoading) return;
-
-    const isInAuthRoute = segments[0] === 'auth';
-
-    if (!isAuthenticated && !isInAuthRoute) {
+    if (!isAuthenticated && !inLoginRoute) {
       router.replace('/auth');
-    } else if (isAuthenticated && isInAuthRoute) {
+    } else if (isAuthenticated && inLoginRoute) {
       router.replace('/');
     }
-  }, [isLoading, isAuthenticated, segments, router]);
+  }, [isAuthenticated, inLoginRoute, router]);
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator color={theme?.colors?.primary || 'blue'} size="large" />
-      </View>
-    );
-  }
+  if (!canRender) return <LoadingIconView />;
 
   return children;
 }

@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+export type PaginatedResponse<T> = {
+  data: T[];
+  nextCursor: string | null;
+};
+
 export const BackendSimplifiedErrorSchema = z.object({
   detail: z.string(),
 });

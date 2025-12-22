@@ -1,30 +1,49 @@
+import { api } from '@/api/api';
 import mockJobImage from '@/assets/images/mock-job-image.png';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
+import { Job } from '@/types/backend/jobs/job';
 import { useRouter } from 'expo-router';
+import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { ErrorView } from './error/error-view';
 import { Rating } from './rating';
+import { ShimmerSkeleton } from './shimmer-skeleton';
 
 export function JobOffersList() {
+  const { data: jobs, isLoading, isError, error } = api.jobs.queries.useGetAll();
+
+  if (isLoading) {
+    return (
+      <>
+        <JobOfferSkeleton />
+        <JobOfferSkeleton />
+      </>
+    );
+  }
+  if (isError || !jobs) return <ErrorView error={error} />;
+
   return (
     <>
-      {Array.from({ length: 10 }).map((_, index) => (
-        <JobOffer key={index} />
+      {Array.from({ length: 5 }).map((_, index) => (
+        <JobOffer key={index} job={jobs[0]} />
       ))}
     </>
   );
 }
 
-const FAKE_JOB_ID = '1';
+type JobOfferProps = {
+  job: Job;
+};
 
-function JobOffer() {
+function JobOffer({ job }: JobOfferProps) {
   const theme = useAppTheme();
   const router = useRouter();
 
   const redirectToJobDetails = () => {
-    router.push(`/job/${FAKE_JOB_ID}`);
+    router.push(`/job/${job.id}`);
   };
 
   return (
@@ -76,5 +95,55 @@ function JobOffer() {
         </View>
       </View>
     </TouchableOpacity>
+  );
+}
+
+function JobOfferSkeleton() {
+  const theme = useAppTheme();
+  const imageSize = getImageSizeAccordingToScreenWidth(
+    require('@/assets/images/mock-job-image.png'),
+    0.91
+  );
+
+  return (
+    <View
+      style={{
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: theme.colors.background.light,
+        borderRadius: 10,
+        paddingBottom: 10,
+        borderWidth: 1,
+        borderColor: theme.colors.border,
+      }}
+    >
+      {/* Image skeleton */}
+      <ShimmerSkeleton
+        borderRadius={10}
+        height={imageSize.height}
+        style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+        width={imageSize.width}
+      />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 6,
+          width: '95%',
+        }}
+      >
+        {/* Left content */}
+        <View style={{ flex: 1 }}>
+          <ShimmerSkeleton height={20} width={140} />
+          <ShimmerSkeleton height={16} style={{ marginTop: 6 }} width={180} />
+          <ShimmerSkeleton height={14} style={{ marginTop: 8 }} width={220} />
+          <ShimmerSkeleton height={18} style={{ marginTop: 12 }} width={90} />
+        </View>
+
+        {/* Rating */}
+        <ShimmerSkeleton borderRadius={12} height={24} width={50} />
+      </View>
+    </View>
   );
 }

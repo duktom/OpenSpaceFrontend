@@ -1,8 +1,7 @@
 import { api } from '@/api/api';
-import mockJobAvatar from '@/assets/images/mock-job-avatar.png';
 import mockJobImage from '@/assets/images/mock-job-image.png';
 import { Avatar } from '@/components/avatar';
-import { ErrorPage } from '@/components/error/error-page';
+import { ErrorView } from '@/components/error/error-view';
 import { FavoriteJobButton } from '@/components/favorite-job-button';
 import { GoBackButton } from '@/components/go-back-button';
 import { LoadingIconView } from '@/components/loading/loading-icon-view';
@@ -13,31 +12,22 @@ import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { Job } from '@/types/backend/jobs/job';
-import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
-  const jobId = Array.isArray(id) ? id[0] : id;
+  const jobId = Number(Array.isArray(id) ? id[0] : id);
   const theme = useAppTheme();
-  const {
-    data: job,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryFn: () => api.jobs.get(jobId),
-    queryKey: ['jobs', 'get'],
-  });
+  const { data: job, isLoading, isError, error } = api.jobs.queries.useGet(jobId);
 
   const applyToJob = () => {
     alert('Functionality not implemented yet!');
   };
 
   if (isLoading) return <LoadingIconView />;
-  if (isError || !job) return <ErrorPage error={error} />;
+  if (isError || !job) return <ErrorView error={error} />;
 
   return (
     <SafeView
@@ -55,7 +45,7 @@ export default function JobDetailsScreen() {
           <Toolbar jobId={jobId} />
           <Image
             resizeMode="contain"
-            source={mockJobImage}
+            source={{ uri: job.photos[0] }}
             style={getImageSizeAccordingToScreenWidth(mockJobImage, 1)}
           />
         </View>
@@ -63,14 +53,10 @@ export default function JobDetailsScreen() {
         {/* Short company info */}
         <View style={{ marginHorizontal: 10 }}>
           <Text className="!font-bold" variant="titleLarge">
-            Microsoft
+            {job.company.name}
           </Text>
-          <Text style={{ marginTop: -1, color: theme.colors.text.base }}>
-            Database administrator
-          </Text>
-          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>
-            {'Al. Jerozolimskie 195A, 02-222 Warszawa'}
-          </Text>
+          <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
+          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{job.location}</Text>
         </View>
 
         <Divider style={{ marginTop: 10 }} />
@@ -79,14 +65,14 @@ export default function JobDetailsScreen() {
           {/* Company account */}
           <View style={{ marginHorizontal: 10 }}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Avatar isVerified source={mockJobAvatar} />
+              <Avatar isVerified source={{ uri: job.company.logo }} />
               <View>
                 <Text className="!font-bold" variant="titleMedium">
-                  Microsoft
+                  {job.company.name}
                 </Text>
-                <Text variant="bodySmall">{`Account created in ${job.createdAt.getFullYear()}`}</Text>
+                <Text variant="bodySmall">{`Account created in ${job.company.createdAt.getFullYear()}`}</Text>
                 <Rating
-                  rating={4.8}
+                  rating={job.company.rating}
                   textProps={{
                     variant: 'bodySmall',
                     style: {
@@ -100,18 +86,8 @@ export default function JobDetailsScreen() {
 
           {/* Company info */}
           <View style={{ marginHorizontal: 10, marginTop: 20, gap: 8, paddingBottom: 10 }}>
-            <Text variant="titleMedium">Database Administrator (DBA)</Text>
-            <Text variant="bodyMedium">
-              Join the Microsoft engineering team and help us manage global database systems that
-              are critical to our business. We are looking for an expert who will ensure optimal
-              performance, availability, and security for our data platforms.
-            </Text>
-            <Text style={{ marginTop: 6 }} variant="bodyMedium">
-              Required qualifications: Minimum 3 years of experience as a DBA. Proficiency in MS SQL
-              Server and strong experience with the Microsoft Azure Data platform. Ability to write
-              and optimize T-SQL code. Knowledge of database security and automation issues (e.g.,
-              PowerShell).
-            </Text>
+            <Text variant="titleMedium">{job.title}</Text>
+            <Text variant="bodyMedium">{job.description}</Text>
           </View>
         </ScrollView>
       </View>
@@ -130,7 +106,7 @@ export default function JobDetailsScreen() {
       >
         <View>
           <Text className="!font-bold" variant="bodyLarge">
-            {getFormattedCurrency(6000)}
+            {getFormattedCurrency(job.salary)}
           </Text>
           <Text variant="bodySmall">Per month</Text>
         </View>

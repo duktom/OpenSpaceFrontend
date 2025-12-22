@@ -15,15 +15,15 @@ export default function RootLayout() {
     <EnvProvider>
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <AuthProvider>
-            <AppThemeProvider>
-              <AppPaperProvider>
+          <AppThemeProvider>
+            <AppPaperProvider>
+              <AuthProvider>
                 <SafeAreaProvider>
                   <Slot />
                 </SafeAreaProvider>
-              </AppPaperProvider>
-            </AppThemeProvider>
-          </AuthProvider>
+              </AuthProvider>
+            </AppPaperProvider>
+          </AppThemeProvider>
         </GestureHandlerRootView>
       </QueryClientProvider>
     </EnvProvider>
