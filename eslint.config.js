@@ -1,9 +1,9 @@
 // eslint.config.js
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
-const reactPlugin = require('eslint-plugin-react');
+import expoConfig from 'eslint-config-expo/flat';
+import reactPlugin from 'eslint-plugin-react';
+import { defineConfig } from 'eslint/config';
 
-module.exports = defineConfig([
+export default defineConfig([
   expoConfig,
   {
     ignores: ['dist/*'],

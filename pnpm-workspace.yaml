@@ -1,0 +1,4 @@
+onlyBuiltDependencies:
+  - detox
+  - dtrace-provider
+  - unrs-resolver

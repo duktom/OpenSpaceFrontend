@@ -3,7 +3,7 @@ import { getAuthToken } from '@/services/auth/token-storage';
 import axios from 'axios';
 
 export const apiClient = axios.create({
-  baseURL: env.EXPO_PUBLIC_BACKEND_BASE_URL,
+  baseURL: env.API_URL,
 });
 
 apiClient.interceptors.request.use(

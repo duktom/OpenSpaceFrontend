@@ -1,8 +1,13 @@
 import { useAuth } from '@/services/auth/auth-context';
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import { Button } from 'react-native-paper';
 
-export function LogoutButton() {
+type LogoutButtonProps = Omit<
+  ComponentProps<typeof Button>,
+  'loading' | 'onPress' | 'disabled' | 'children'
+>;
+
+export function LogoutButton(props: LogoutButtonProps) {
   const { logout } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +18,14 @@ export function LogoutButton() {
   };
 
   return (
-    <Button disabled={loading} icon="logout" loading={loading} mode="text" onPress={handleLogout}>
+    <Button
+      disabled={loading}
+      icon="logout"
+      loading={loading}
+      mode="text"
+      onPress={handleLogout}
+      {...props}
+    >
       Logout
     </Button>
   );

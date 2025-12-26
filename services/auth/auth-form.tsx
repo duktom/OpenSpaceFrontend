@@ -24,10 +24,14 @@ const FormValuesSchema = z.union([
 type FormValues = z.infer<typeof FormValuesSchema>;
 type FormMode = 'login' | 'registerUser' | 'registerCompany';
 
-type FormModeOption = { value: FormMode; label: string };
+type FormModeOption = { value: FormMode; label: string; testID?: string };
 const FORM_MODE_OPTIONS = [
-  { value: 'registerUser', label: 'User' },
-  { value: 'registerCompany', label: 'Company' },
+  { value: 'registerUser', label: 'User', testID: 'AUTH.FORM_CONTAINER.REGISTER_USER_BUTTON' },
+  {
+    value: 'registerCompany',
+    label: 'Company',
+    testID: 'AUTH.FORM_CONTAINER.REGISTER_COMPANY_BUTTON',
+  },
 ] as const satisfies FormModeOption[];
 
 const FORM_SCHEMAS = {
@@ -101,14 +105,18 @@ export function AuthForm() {
     setApiError(null);
   };
 
-  const toggleFormMode = () => {
+  const toggleLoginRegisterFormMode = () => {
     setFormMode((prev) => (prev === 'login' ? 'registerUser' : 'login'));
     clearErrors();
   };
 
   return (
-    <View className="gap-1 px-6">
-      <Text className="!text-center mb-4 mt-6" variant="headlineMedium">
+    <View className="gap-1 px-6 pb-4" testID="AUTH.FORM_CONTAINER">
+      <Text
+        className="!text-center mb-4 mt-6"
+        variant="headlineMedium"
+        testID="AUTH.FORM_CONTAINER.TITLE"
+      >
         {formMode === 'login' ? 'Welcome back!' : 'Create account'}
       </Text>
 
@@ -129,22 +137,46 @@ export function AuthForm() {
 
       {/* FIRST NAME */}
       {formMode === 'registerUser' ? (
-        <TextFormInput control={control} label="First Name" name="firstName" placeholder="John" />
+        <TextFormInput
+          control={control}
+          label="First Name"
+          name="firstName"
+          placeholder="John"
+          testID="AUTH.FORM_CONTAINER.FIRST_NAME_INPUT"
+        />
       ) : null}
 
       {/* SURNAME */}
       {formMode === 'registerUser' ? (
-        <TextFormInput control={control} label="Surname" name="surname" placeholder="Dope" />
+        <TextFormInput
+          control={control}
+          label="Surname"
+          name="surname"
+          placeholder="Dope"
+          testID="AUTH.FORM_CONTAINER.SURNAME_INPUT"
+        />
       ) : null}
 
       {/* Company name */}
       {formMode === 'registerCompany' ? (
-        <TextFormInput control={control} label="Company name" name="name" placeholder="Mirosoft" />
+        <TextFormInput
+          control={control}
+          label="Company name"
+          name="name"
+          placeholder="Mirosoft"
+          testID="AUTH.FORM_CONTAINER.COMPANY_NAME_INPUT"
+        />
       ) : null}
 
       {/* EIN */}
       {formMode === 'registerCompany' ? (
-        <TextFormInput control={control} label="EIN" name="ein" placeholder="022-41-11-111" />
+        <TextFormInput
+          control={control}
+          label="EIN"
+          name="ein"
+          placeholder="022-41-11-111"
+          testID="AUTH.FORM_CONTAINER.EIN_INPUT"
+        />
       ) : null}
 
       {/* EMAIL */}
@@ -155,6 +187,7 @@ export function AuthForm() {
         label="Email"
         name="email"
         placeholder="example@gmail.com"
+        testID="AUTH.FORM_CONTAINER.EMAIL_INPUT"
       />
 
       {/* PASSWORD */}
@@ -168,6 +201,7 @@ export function AuthForm() {
         style={{
           marginTop: formMode !== 'login' ? 12 : 0,
         }}
+        testID="AUTH.FORM_CONTAINER.PASSWORD_INPUT"
       />
 
       {/* CONFIRM PASSWORD */}
@@ -179,6 +213,7 @@ export function AuthForm() {
           label="Confirm Password"
           name="confirmPassword"
           placeholder="******"
+          testID="AUTH.FORM_CONTAINER.CONFIRM_PASSWORD_INPUT"
         />
       ) : null}
 
@@ -190,12 +225,17 @@ export function AuthForm() {
           isLoading={formState.isSubmitting}
           variant="contained"
           onPress={handleSubmit(onSubmit)}
+          testID="AUTH.FORM_CONTAINER.SUBMIT_BUTTON"
         >
           {formMode !== 'login' ? 'Register' : 'Login'}
         </OpacityButton>
       </View>
 
-      <Button mode="text" onPress={toggleFormMode}>
+      <Button
+        mode="text"
+        onPress={toggleLoginRegisterFormMode}
+        testID="AUTH.FORM_CONTAINER.TOGGLE_LOGIN_REGISTER_BUTTON"
+      >
         {formMode === 'login'
           ? "Don't have an account? Register"
           : 'Already have an account? Login'}

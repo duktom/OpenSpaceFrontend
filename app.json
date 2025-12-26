@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "openspace-frontend",
-    "slug": "openspace-frontend",
+    "name": "openspace",
+    "slug": "openspace",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/default-images/icon.png",
-    "scheme": "openspace-frontend",
+    "scheme": "openspace",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
