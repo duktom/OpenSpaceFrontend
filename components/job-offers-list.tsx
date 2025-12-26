@@ -1,9 +1,9 @@
-import { api } from '@/api/api';
 import mockJobImage from '@/assets/images/mock-job-image.png';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { Job } from '@/types/backend/jobs/job';
+import { api } from '@/services/api';
+import { Job } from '@/services/api/job/job.types';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
@@ -13,7 +13,7 @@ import { Rating } from './rating';
 import { ShimmerSkeleton } from './shimmer-skeleton';
 
 export function JobOffersList() {
-  const { data: jobs, isLoading, isError, error } = api.jobs.queries.useGetAll();
+  const { data: jobs, isLoading, isError, error } = api.job.queries.useGetAllJobs();
 
   if (isLoading) {
     return (

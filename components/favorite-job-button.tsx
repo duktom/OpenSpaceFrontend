@@ -1,5 +1,5 @@
-import { api } from '@/api/api';
-import { Job } from '@/types/backend/jobs/job';
+import { api } from '@/services/api';
+import { Job } from '@/services/api/job/job.types';
 import { useState } from 'react';
 import { LikeButton } from './like-button';
 
@@ -9,10 +9,11 @@ type FavoriteJobButtonProps = {
 
 export function FavoriteJobButton({ jobId }: FavoriteJobButtonProps) {
   const [isFavoriteJob, setIsFavoriteJob] = useState(false);
+  const { mutate } = api.job.mutations.useToggleFavoriteJob();
 
   const toggleFavoriteJob = () => {
     setIsFavoriteJob((x) => !x);
-    api.jobs.toggleFavoriteJob(jobId);
+    mutate({ id: jobId });
   };
 
   return (

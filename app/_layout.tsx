@@ -1,7 +1,7 @@
-import { AuthProvider } from '@/auth/auth-context';
 import { AppPaperProvider } from '@/providers/app-paper-provider';
 import { AppThemeProvider } from '@/providers/app-theme-provider';
 import { EnvProvider } from '@/providers/env-provider';
+import { AuthProvider } from '@/services/auth/auth-context';
 import '@/styles/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot } from 'expo-router';
@@ -17,11 +17,11 @@ export default function RootLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
           <AppThemeProvider>
             <AppPaperProvider>
-              <AuthProvider>
-                <SafeAreaProvider>
+              <SafeAreaProvider>
+                <AuthProvider>
                   <Slot />
-                </SafeAreaProvider>
-              </AuthProvider>
+                </AuthProvider>
+              </SafeAreaProvider>
             </AppPaperProvider>
           </AppThemeProvider>
         </GestureHandlerRootView>

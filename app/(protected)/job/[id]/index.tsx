@@ -1,4 +1,3 @@
-import { api } from '@/api/api';
 import mockJobImage from '@/assets/images/mock-job-image.png';
 import { Avatar } from '@/components/avatar';
 import { ErrorView } from '@/components/error/error-view';
@@ -11,7 +10,8 @@ import { SafeView } from '@/components/safe-view';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { Job } from '@/types/backend/jobs/job';
+import { api } from '@/services/api';
+import { Job } from '@/services/api/job/job.types';
 import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
@@ -20,7 +20,7 @@ export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
   const jobId = Number(Array.isArray(id) ? id[0] : id);
   const theme = useAppTheme();
-  const { data: job, isLoading, isError, error } = api.jobs.queries.useGet(jobId);
+  const { data: job, isLoading, isError, error } = api.job.queries.useGetJobById({ id: jobId });
 
   const applyToJob = () => {
     alert('Functionality not implemented yet!');
@@ -70,7 +70,7 @@ export default function JobDetailsScreen() {
                 <Text className="!font-bold" variant="titleMedium">
                   {job.company.name}
                 </Text>
-                <Text variant="bodySmall">{`Account created in ${job.company.createdAt.getFullYear()}`}</Text>
+                <Text variant="bodySmall">{`Account created in ${job.company.creationDate.getFullYear()}`}</Text>
                 <Rating
                   rating={job.company.rating}
                   textProps={{
