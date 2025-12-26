@@ -77,7 +77,7 @@ export function AuthForm() {
       confirmPassword: '',
       // Register user
       firstName: '',
-      surname: '',
+      lastName: '',
       // Register company
       ein: '',
       name: '',
@@ -146,14 +146,14 @@ export function AuthForm() {
         />
       ) : null}
 
-      {/* SURNAME */}
+      {/* LAST NAME */}
       {formMode === 'registerUser' ? (
         <TextFormInput
           control={control}
-          label="Surname"
-          name="surname"
+          label="Last name"
+          name="lastName"
           placeholder="Dope"
-          testID="AUTH.FORM_CONTAINER.SURNAME_INPUT"
+          testID="AUTH.FORM_CONTAINER.LAST_NAME_INPUT"
         />
       ) : null}
 

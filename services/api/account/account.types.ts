@@ -69,7 +69,7 @@ export type RegisterCompanyResponse = z.infer<typeof RegisterCompanyResponseSche
 export const RegisterUserBodySchema = LoginBaseSchema.extend({
   confirmPassword: z.string().trim().nonempty('Please confirm your password'),
   firstName: z.string().trim().nonempty('First name is required'),
-  surname: z.string().trim().nonempty('Surname is required'),
+  lastName: z.string().trim().nonempty('Last name is required'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ['confirmPassword'],

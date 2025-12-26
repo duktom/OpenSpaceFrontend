@@ -52,7 +52,7 @@ describe('Authentication', () => {
       await expect(element(by.id('AUTH.FORM_CONTAINER.REGISTER_COMPANY_BUTTON'))).toBeVisible();
 
       await expect(element(by.id('AUTH.FORM_CONTAINER.FIRST_NAME_INPUT'))).toBeVisible();
-      await expect(element(by.id('AUTH.FORM_CONTAINER.SURNAME_INPUT'))).toBeVisible();
+      await expect(element(by.id('AUTH.FORM_CONTAINER.LAST_NAME_INPUT'))).toBeVisible();
       await expect(element(by.id('AUTH.FORM_CONTAINER.EMAIL_INPUT'))).toBeVisible();
       await expect(element(by.id('AUTH.FORM_CONTAINER.PASSWORD_INPUT'))).toBeVisible();
       await expect(element(by.id('AUTH.FORM_CONTAINER.CONFIRM_PASSWORD_INPUT'))).toBeVisible();
