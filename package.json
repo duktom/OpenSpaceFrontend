@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "run:android": "expo run:android",
-    "run:ios": "expo run:ios",
+    "prebuild": "expo prebuild --clean",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "lint": "expo lint && eslint .",
-    "lint:fix": "expo lint --fix && eslint . --fix && prettier --write .",
     "test:detox-android": "detox test --detectOpenHandles --configuration android.emu.debug",
     "test:detox-ios": "detox test --detectOpenHandles --configuration ios.sim.debug ",
     "build:detox-android": "detox build --configuration android.emu.debug",
