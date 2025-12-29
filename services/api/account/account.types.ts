@@ -8,14 +8,11 @@ const SharedBaseAccountSchema = z.object({
   id: z.number().min(1),
   email: z.email(),
   type: AccountTypeSchema.nullable(),
-  role: z.string().trim().nullable(),
 });
 
 // DTO
 export const AccountDtoSchema = SharedBaseAccountSchema.extend({
   is_verified: z.boolean(),
-  profile_img_id: z.number().min(1).nullable(),
-  profile_img_link: z.url().nullable(),
   creation_date: z.iso.datetime(),
   exp_date: z.iso.datetime().nullable(),
 });
@@ -24,8 +21,6 @@ export type AccountDto = z.infer<typeof AccountDtoSchema>;
 // FE Entity
 export const AccountSchema = SharedBaseAccountSchema.extend({
   isVerified: z.boolean(),
-  profileImgId: z.number().min(1).nullable(),
-  profileImgLink: z.url().nullable(),
   creationDate: z.date(),
   expDate: z.date().nullable(),
 });

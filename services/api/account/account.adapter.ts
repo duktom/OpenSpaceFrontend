@@ -15,8 +15,6 @@ export const AccountDtoToEntitySchema = AccountDtoSchema.transform(
     ({
       ...data,
       isVerified: data.is_verified,
-      profileImgId: data.profile_img_id,
-      profileImgLink: data.profile_img_link,
       creationDate: new Date(data.creation_date),
       expDate: getDateOrNull(data.exp_date),
     }) satisfies Account

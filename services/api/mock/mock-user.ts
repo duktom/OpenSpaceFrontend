@@ -6,14 +6,11 @@ const getOneYearAgo = () => {
   return date.toISOString();
 };
 
-export const mockUser: AccountDto = {
+export const MOCK_USER: AccountDto = {
   id: 1,
   email: 'test@gmail.com',
   type: 'admin',
-  role: null,
   is_verified: true,
-  profile_img_id: null,
-  profile_img_link: null,
   creation_date: getOneYearAgo(),
   exp_date: null,
 };

@@ -12,9 +12,15 @@ import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-acc
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { api } from '@/services/api';
 import { Job } from '@/services/api/job/job.types';
+import { MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-company';
+import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
 import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
+
+const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Job['company']['address']): string => {
+  return `${city} ${street} ${buildingNumber}/${apartmentNumber} ${postalCode}`
+}
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -45,7 +51,7 @@ export default function JobDetailsScreen() {
           <Toolbar jobId={jobId} />
           <Image
             resizeMode="contain"
-            source={{ uri: job.photos[0] }}
+            source={{ uri: job.profileImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE}}
             style={getImageSizeAccordingToScreenWidth(mockJobImage, 1)}
           />
         </View>
@@ -56,7 +62,7 @@ export default function JobDetailsScreen() {
             {job.company.name}
           </Text>
           <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
-          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{job.location}</Text>
+          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{formatCompanyLocation(job.company.address)}</Text>
         </View>
 
         <Divider style={{ marginTop: 10 }} />
@@ -65,7 +71,7 @@ export default function JobDetailsScreen() {
           {/* Company account */}
           <View style={{ marginHorizontal: 10 }}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Avatar isVerified source={{ uri: job.company.logo }} />
+              <Avatar isVerified source={{ uri: job.company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }} />
               <View>
                 <Text className="!font-bold" variant="titleMedium">
                   {job.company.name}
@@ -106,7 +112,7 @@ export default function JobDetailsScreen() {
       >
         <View>
           <Text className="!font-bold" variant="bodyLarge">
-            {getFormattedCurrency(job.salary)}
+            {getFormattedCurrency(job.payoff)}
           </Text>
           <Text variant="bodySmall">Per month</Text>
         </View>

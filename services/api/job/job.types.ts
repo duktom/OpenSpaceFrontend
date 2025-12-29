@@ -6,17 +6,17 @@ const BaseJobSchema = z.object({
   id: z.number().min(1),
   title: z.string().trim().nonempty(),
   description: z.string().trim().nonempty(),
-  location: z.string().trim().nonempty(),
-  salary: z.number().min(1),
-  photos: z.array(z.url()).min(1),
+  payoff: z.number().min(1),
 });
 
 // Dto
 export const JobSchemaDto = BaseJobSchema.extend({
-  postingDate: z.iso.datetime(),
-  expiryDate: z.iso.datetime().nullable(),
+  posting_date: z.iso.datetime(),
+  expiry_date: z.iso.datetime().nullable(),
+  profile_img_id: z.string().trim().nonempty(),
+  profile_img_link: z.url().nullable(),
   company: CompanySchemaDto,
-  poster: AccountDtoSchema,
+  recruiter: AccountDtoSchema,
 });
 export type JobDto = z.infer<typeof JobSchemaDto>;
 
@@ -24,8 +24,10 @@ export type JobDto = z.infer<typeof JobSchemaDto>;
 export const JobSchema = BaseJobSchema.extend({
   postingDate: z.date(),
   expiryDate: z.date().nullable(),
+  profileImgId: z.string().trim().nonempty(),
+  profileImgLink: z.url().nullable(),
   company: CompanySchema,
-  poster: AccountSchema,
+  recruiter: AccountSchema,
 });
 export type Job = z.infer<typeof JobSchema>;
 
