@@ -56,8 +56,8 @@ export default function HomeScreen() {
         flex: 1,
         backgroundColor: theme.colors.background.base,
       }}
-      withPaddingBottom={false}
       testID="HOME.SCREEN_CONTAINER"
+      withPaddingBottom={false}
     >
       <View style={{ backgroundColor: theme.colors.background.light }}>
         <View className="flex items-center justify-center">

@@ -4,14 +4,22 @@ import { EnvProvider } from '@/providers/env-provider';
 import { AuthProvider } from '@/services/auth/auth-context';
 import '@/styles/global.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Slot } from 'expo-router';
 import { LogBox } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { LaunchArguments } from 'react-native-launch-arguments';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const args = LaunchArguments.value();
-if (args.DETOX_MODE) LogBox.ignoreAllLogs(true);
+const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+if (!isExpoGo) {
+  try {
+    const args = LaunchArguments.value();
+    if (args.DETOX_MODE) LogBox.ignoreAllLogs(true);
+  } catch {
+    console.info('Skipping LaunchArguments (likely not linked)');
+  }
+}
 
 const queryClient = new QueryClient();
 

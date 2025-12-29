@@ -2,9 +2,9 @@ import { OpacityButton } from '@/components/opacity-button';
 import { TextError } from '@/components/text-error';
 import { TextFormInput } from '@/components/text-form-input';
 import {
-  LoginBodySchema,
-  RegisterCompanyBodySchema,
-  RegisterUserBodySchema,
+  LoginDataSchema,
+  RegisterCompanyDataSchema,
+  RegisterUserDataSchema,
 } from '@/services/api/account/account.types';
 import { useAuth } from '@/services/auth/auth-context';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,9 +17,9 @@ import { z } from 'zod';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FormValuesSchema = z.union([
-  LoginBodySchema,
-  RegisterUserBodySchema,
-  RegisterCompanyBodySchema,
+  LoginDataSchema,
+  RegisterUserDataSchema,
+  RegisterCompanyDataSchema,
 ]);
 type FormValues = z.infer<typeof FormValuesSchema>;
 type FormMode = 'login' | 'registerUser' | 'registerCompany';
@@ -35,9 +35,9 @@ const FORM_MODE_OPTIONS = [
 ] as const satisfies FormModeOption[];
 
 const FORM_SCHEMAS = {
-  login: LoginBodySchema,
-  registerUser: RegisterUserBodySchema,
-  registerCompany: RegisterCompanyBodySchema,
+  login: LoginDataSchema,
+  registerUser: RegisterUserDataSchema,
+  registerCompany: RegisterCompanyDataSchema,
 } as const satisfies Record<FormMode, z.ZodObject>;
 
 const useAuthSubmitAction = () => {
@@ -78,6 +78,7 @@ export function AuthForm() {
       // Register user
       firstName: '',
       lastName: '',
+      birthDate: null,
       // Register company
       ein: '',
       name: '',
@@ -114,8 +115,8 @@ export function AuthForm() {
     <View className="gap-1 px-6 pb-4" testID="AUTH.FORM_CONTAINER">
       <Text
         className="!text-center mb-4 mt-6"
-        variant="headlineMedium"
         testID="AUTH.FORM_CONTAINER.TITLE"
+        variant="headlineMedium"
       >
         {formMode === 'login' ? 'Welcome back!' : 'Create account'}
       </Text>
@@ -174,7 +175,7 @@ export function AuthForm() {
           control={control}
           label="EIN"
           name="ein"
-          placeholder="022-41-11-111"
+          placeholder="1234567890"
           testID="AUTH.FORM_CONTAINER.EIN_INPUT"
         />
       ) : null}
@@ -223,9 +224,9 @@ export function AuthForm() {
           className="w-1/2 !min-w-44"
           disabled={formState.isSubmitting || (formState.isSubmitted && !formState.isValid)}
           isLoading={formState.isSubmitting}
+          testID="AUTH.FORM_CONTAINER.SUBMIT_BUTTON"
           variant="contained"
           onPress={handleSubmit(onSubmit)}
-          testID="AUTH.FORM_CONTAINER.SUBMIT_BUTTON"
         >
           {formMode !== 'login' ? 'Register' : 'Login'}
         </OpacityButton>
@@ -233,8 +234,8 @@ export function AuthForm() {
 
       <Button
         mode="text"
-        onPress={toggleLoginRegisterFormMode}
         testID="AUTH.FORM_CONTAINER.TOGGLE_LOGIN_REGISTER_BUTTON"
+        onPress={toggleLoginRegisterFormMode}
       >
         {formMode === 'login'
           ? "Don't have an account? Register"

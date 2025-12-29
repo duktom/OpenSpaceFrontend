@@ -26,7 +26,9 @@ describe('Authentication', () => {
 
     it('persists active session after reload', async () => {
       await device.reloadReactNative();
-      await expect(element(by.id('HOME.SCREEN_CONTAINER'))).toBeVisible();
+      await waitFor(element(by.id('HOME.SCREEN_CONTAINER')))
+        .toBeVisible()
+        .withTimeout(20000);
     });
 
     it('logs out successfully', async () => {
@@ -40,7 +42,9 @@ describe('Authentication', () => {
 
     it('persists logged-out state after reload', async () => {
       await device.reloadReactNative();
-      await expect(element(by.id('AUTH.FORM_CONTAINER'))).toBeVisible();
+      await waitFor(element(by.id('AUTH.FORM_CONTAINER')))
+        .toBeVisible()
+        .withTimeout(20000);
     });
   });
 

@@ -4,9 +4,9 @@ import { getApiErrorMessages } from '@/helpers/get-api-error-messages';
 import { api } from '@/services/api';
 import {
   GetTokenResponse,
-  LoginBody,
-  RegisterCompanyBody,
-  RegisterUserBody,
+  LoginData,
+  RegisterCompanyData,
+  RegisterUserData,
 } from '@/services/api/account/account.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
@@ -14,9 +14,9 @@ import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {
   isAuthenticated: boolean;
-  registerUserThenLogin: (registerUserData: RegisterUserBody) => Promise<string | null>;
-  registerCompanyThenLogin: (registerCompanyData: RegisterCompanyBody) => Promise<string | null>;
-  login: (loginData: LoginBody) => Promise<string | null>;
+  registerUserThenLogin: (registerUserData: RegisterUserData) => Promise<string | null>;
+  registerCompanyThenLogin: (registerCompanyData: RegisterCompanyData) => Promise<string | null>;
+  login: (loginData: LoginData) => Promise<string | null>;
   logout: () => Promise<string | null>;
 };
 

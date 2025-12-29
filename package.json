@@ -2,17 +2,18 @@
   "name": "openspace",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "start": "expo start --clear",
-    "dev": "expo start",
     "run:android": "expo run:android",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "lint": "expo lint && eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "expo lint --fix && eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write .",
-    "test:detox-android": "detox test --configuration android.emu.debug",
+    "run:ios": "expo run:ios",
+    "lint": "expo lint && eslint .",
+    "lint:fix": "expo lint --fix && eslint . --fix && prettier --write .",
+    "test:detox-android": "detox test --detectOpenHandles --configuration android.emu.debug",
+    "test:detox-ios": "detox test --detectOpenHandles --configuration ios.sim.debug ",
     "build:detox-android": "detox build --configuration android.emu.debug",
-    "build:android-preview": "eas build -p android --profile preview"
+    "build:detox-ios": "detox build --configuration ios.sim.debug",
+    "build:android-preview": "eas build -p android --profile preview",
+    "build:ios-preview": "eas build -p ios --profile preview"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -69,6 +70,5 @@
     "prettier": "^3.7.2",
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.2"
-  },
-  "private": true
+  }
 }

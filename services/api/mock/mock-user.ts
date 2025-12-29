@@ -10,8 +10,10 @@ export const mockUser: AccountDto = {
   id: 1,
   email: 'test@gmail.com',
   type: 'admin',
-  creationDate: getOneYearAgo(),
-  expDate: null,
-  isVerified: true,
   role: null,
+  is_verified: true,
+  profile_img_id: null,
+  profile_img_link: null,
+  creation_date: getOneYearAgo(),
+  exp_date: null,
 };

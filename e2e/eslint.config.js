@@ -1,5 +1,5 @@
 // eslint.config.js
-import { defineConfig } from 'eslint/config';
+const { defineConfig } = require('eslint/config');
 
 export default defineConfig([
   {
