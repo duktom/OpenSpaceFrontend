@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "openspace-frontend",
-    "slug": "openspace-frontend",
+    "name": "openspace",
+    "slug": "openspace",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/default-images/icon.png",
-    "scheme": "openspace-frontend",
+    "icon": "./assets/images/icon.png",
+    "scheme": "openspace",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -14,25 +14,18 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/default-images/android-icon-foreground.png",
-        "backgroundImage": "./assets/default-images/android-icon-background.png",
-        "monochromeImage": "./assets/default-images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.openspace"
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/default-images/favicon.png",
-      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/default-images/splash-icon.png",
+          "image": "./assets/images/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
@@ -51,7 +44,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "b8bce223-3cde-4219-b3b9-13b2c68aae47"
+        "projectId": "84eaf96f-225b-41c2-812e-9438a33b02a9"
       }
     }
   }

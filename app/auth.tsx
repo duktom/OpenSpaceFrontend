@@ -1,26 +1,24 @@
-import { AuthForm } from '@/auth/auth-form';
 import { SafeKeyboardAvoidingView } from '@/components/safe-keyboard-avoiding-view';
-import { SafeView } from '@/components/safe-view';
 import { useAppTheme } from '@/providers/app-theme-provider';
-import { ScrollView } from 'react-native';
+import { AuthForm } from '@/services/auth/auth-form';
+import { ScrollView, View } from 'react-native';
 
 export default function AuthScreen() {
   const theme = useAppTheme();
 
   return (
-    <SafeView
+    <View
       style={{
         flex: 1,
         backgroundColor: theme.colors.background.base,
         justifyContent: 'center',
       }}
-      withPaddingBottom={false}
     >
       <SafeKeyboardAvoidingView>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="handled">
           <AuthForm />
         </ScrollView>
       </SafeKeyboardAvoidingView>
-    </SafeView>
+    </View>
   );
 }

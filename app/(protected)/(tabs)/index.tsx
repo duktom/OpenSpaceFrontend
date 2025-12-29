@@ -56,6 +56,7 @@ export default function HomeScreen() {
         flex: 1,
         backgroundColor: theme.colors.background.base,
       }}
+      testID="HOME.SCREEN_CONTAINER"
       withPaddingBottom={false}
     >
       <View style={{ backgroundColor: theme.colors.background.light }}>
@@ -105,6 +106,7 @@ export default function HomeScreen() {
           marginLeft: 16,
           marginRight: 16,
         }}
+        testID="HOME.LIST.SCROLL_VIEW"
       >
         {TAB_BUTTONS_DATA.map((tabButtonData) => {
           if (selectedTab !== tabButtonData.value) {
@@ -112,7 +114,7 @@ export default function HomeScreen() {
           }
           return <tabButtonData.Content key={tabButtonData.value} />;
         })}
-        <LogoutButton />
+        <LogoutButton testID="HOME.LOGOUT_BUTTON" />
         <ToggleThemeButton />
       </ScrollView>
     </SafeView>

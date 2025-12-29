@@ -2,7 +2,7 @@ import {
   ApiError,
   BackendDetailedErrorSchema,
   BackendSimplifiedErrorSchema,
-} from '@/types/backend.types';
+} from '@/services/api/types';
 import { getErrorMessage } from './get-error-message';
 
 const LOCATION_SEPARATOR = ' -> ';

@@ -1,4 +1,4 @@
-import { AuthGuard } from '@/auth/auth-guard';
+import { AuthGuard } from '@/services/auth/auth-guard';
 import { Slot } from 'expo-router';
 
 export default function ProtectedLayout() {
