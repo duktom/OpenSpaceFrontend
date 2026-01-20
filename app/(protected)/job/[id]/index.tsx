@@ -143,12 +143,3 @@ function Toolbar({ jobId }: ToolbarProps) {
     </>
   );
 }
-         left: 10,
-          top: 10,
-          zIndex: 1,
-        }}
-      />
-      <FavoriteJobButton jobId={jobId} />
-    </>
-  );
-}

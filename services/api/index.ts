@@ -5,5 +5,3 @@ export const api = {
   account,
   job,
 };
-,
-};
