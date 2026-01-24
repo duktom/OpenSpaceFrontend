@@ -120,8 +120,8 @@ export default function CompanyProfileScreen() {
         </View>
 
         {/* Company rating section */}
-        <View style={{ marginHorizontal: 10, marginVertical: 40 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <View style={{ marginHorizontal: 10, marginVertical: 20 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginLeft: 10, marginRight: 10 }}>
             <View style={{ alignItems: 'center' }}>
               <Text className="!font-bold" variant="displaySmall">
                 4.8
@@ -162,7 +162,7 @@ export default function CompanyProfileScreen() {
                 >
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                     <View style={{ flex: 1, flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-                      <View style={{ width: 32, height: 32 }}>
+                      <View style={{ width: 48, height: 48 }}>
                         <Avatar source={{ uri: rating.avatar }} />
                       </View>
                       <View style={{ flex: 1 }}>
