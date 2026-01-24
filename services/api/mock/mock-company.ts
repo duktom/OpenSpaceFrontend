@@ -11,7 +11,7 @@ export const MOCK_DEFAULT_COMPANY_PROFILE_IMAGE = 'https://i.imgur.com/EwbYomy.p
 export const MOCK_COMPANY: CompanyDto = {
   id: 1,
   name: 'Mirosoft',
-  description: null,
+  description: 'Jesteśmy Microsoft i od ponad 40 lat tworzymy technologie, które zmieniają świat. Naszą misją jest wspieranie ludzi i organizacji w osiąganiu więcej – dzięki rozwiązaniom takim jak Windows, Microsoft 365, Azure czy Copilot.',
   profile_img_id: 'EwbYomy',
   profile_img_link: 'https://i.imgur.com/EwbYomy.png',
   address: {
