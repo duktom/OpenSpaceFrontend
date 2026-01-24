@@ -14,8 +14,8 @@ import { api } from '@/services/api';
 import { Job } from '@/services/api/job/job.types';
 import { MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-company';
 import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
-import { useLocalSearchParams } from 'expo-router';
-import { Image, ScrollView, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 
 const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Job['company']['address']): string => {
@@ -26,6 +26,7 @@ export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
   const jobId = Number(Array.isArray(id) ? id[0] : id);
   const theme = useAppTheme();
+  const router = useRouter();
   const { data: job, isLoading, isError, error } = api.job.queries.useGetJobById({ id: jobId });
 
   const applyToJob = () => {
@@ -34,6 +35,10 @@ export default function JobDetailsScreen() {
 
   if (isLoading) return <LoadingIconView />;
   if (isError || !job) return <ErrorView error={error} />;
+
+  const navigateToCompanyProfile = () => {
+    router.push(`/company/${job.company.id}`);
+  };
 
   return (
     <SafeView
@@ -57,23 +62,23 @@ export default function JobDetailsScreen() {
         </View>
 
         {/* Short company info */}
-        <View style={{ marginHorizontal: 10 }}>
-          <Text className="!font-bold" variant="titleLarge">
+        <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={navigateToCompanyProfile}>
+          <Text className="!font-bold" variant="titleLarge" style={{ color: theme.colors.primary }}>
             {job.company.name}
           </Text>
           <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
           <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{formatCompanyLocation(job.company.address)}</Text>
-        </View>
+        </TouchableOpacity>
 
         <Divider style={{ marginTop: 10 }} />
 
         <ScrollView showsVerticalScrollIndicator style={{ paddingTop: 5, flex: 1 }}>
           {/* Company account */}
-          <View style={{ marginHorizontal: 10 }}>
+          <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={navigateToCompanyProfile}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <Avatar isVerified source={{ uri: job.company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }} />
               <View>
-                <Text className="!font-bold" variant="titleMedium">
+                <Text className="!font-bold" variant="titleMedium" style={{ color: theme.colors.primary }}>
                   {job.company.name}
                 </Text>
                 <Text variant="bodySmall">{`Account created in ${job.company.creationDate.getFullYear()}`}</Text>
@@ -88,7 +93,7 @@ export default function JobDetailsScreen() {
                 />
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
 
           {/* Company info */}
           <View style={{ marginHorizontal: 10, marginTop: 20, gap: 8, paddingBottom: 10 }}>
