@@ -3,6 +3,7 @@ import { GoBackButton } from '@/components/go-back-button';
 import { SafeView } from '@/components/safe-view';
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { MOCK_COMPANY, MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-company';
+import { MOCK_RATINGS } from '@/services/api/mock/mock-opinion';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
@@ -34,37 +35,6 @@ const renderStars = (rating: number) => {
     </View>
   );
 };
-
-const MOCK_RATINGS = [
-  {
-    id: 1,
-    author: 'Roman Staś',
-    avatar: 'https://via.placeholder.com/40?text=RS',
-    rating: 5,
-    text: 'Fantastyczne miejsce do pracy! Zespół jest super, a projekty bardzo ciekawe.',
-  },
-  {
-    id: 2,
-    author: 'Magdalena B.',
-    avatar: 'https://via.placeholder.com/40?text=MB',
-    rating: 5,
-    text: 'Świetna firma, gdzie się rozwija umiejętności i jest wspierana praca nad ważnymi projektami.',
-  },
-  {
-    id: 3,
-    author: 'Anna Kowalska',
-    avatar: 'https://via.placeholder.com/40?text=AK',
-    rating: 5,
-    text: 'Polska perspektywa - ha. Rodzina (w sensie firma) rzeczywiście wspiera osoby w międzynarodowych zespołach.',
-  },
-  {
-    id: 4,
-    author: 'Piotr Nowak',
-    avatar: 'https://via.placeholder.com/40?text=PN',
-    rating: 5,
-    text: 'Fantastyczne miejsce do pracy! Zespół jest super, a projekty bardzo ciekawe.',
-  },
-];
 
 export default function CompanyProfileScreen() {
   const { id } = useLocalSearchParams();
@@ -150,7 +120,7 @@ export default function CompanyProfileScreen() {
         </View>
 
         {/* Company rating section */}
-        <View style={{ marginHorizontal: 10, marginVertical: 20 }}>
+        <View style={{ marginHorizontal: 10, marginVertical: 40 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <View style={{ alignItems: 'center' }}>
               <Text className="!font-bold" variant="displaySmall">
