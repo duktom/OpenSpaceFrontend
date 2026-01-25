@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "name": "openspace",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0036630630493164062,
+  "filesCount": 17,
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "{{BASE_URL}}/"
+  }
+}

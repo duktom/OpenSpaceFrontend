@@ -3,13 +3,13 @@ import { LoadingIconView } from '@/components/loading/loading-icon-view';
 import { getApiErrorMessages } from '@/helpers/get-api-error-messages';
 import { api } from '@/services/api';
 import {
-  GetTokenResponse,
-  LoginData,
-  RegisterCompanyData,
-  RegisterUserData,
+    GetTokenResponse,
+    LoginData,
 } from '@/services/api/account/account.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
+import { RegisterCompanyData } from '../api/company/company.types';
+import { RegisterUserData } from '../api/user/user.types';
 import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {

@@ -1,0 +1,23 @@
+meta {
+  name: Logout
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{BASE_URL}}/account/logout
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "company@gmail.com",
+    "password": "password"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,16 +1,18 @@
-import { z } from 'zod';
-import { JobDtoToEntitySchema } from './job.adapter';
+
+import { GetJobByIdDataToDtoSchema } from './job.adapter';
 import * as api from './job.api';
-import { GetJobByIdParams, Job, ToggleFavoriteJobParams } from './job.types';
+import { GetJobByIdParams, ToggleFavoriteJobData, ToggleFavoriteJobDataSchema } from './job.types';
 
-export const getJobById = async (params: GetJobByIdParams): Promise<Job> => {
-  return JobDtoToEntitySchema.parse(await api.getJobById(params));
+export const getJobById = async (data: GetJobByIdParams) => {
+  const {params} = GetJobByIdDataToDtoSchema.parse(data);
+  return await api.getJobById(params);
 };
 
-export const getAllJobs = async (): Promise<Job[]> => {
-  return z.array(JobDtoToEntitySchema).parse(await api.getAllJobs());
+export const getAllJobs = async () => {
+  return await api.getAllJobs();
 };
 
-export const toggleFavoriteJob = async (params: ToggleFavoriteJobParams): Promise<void> => {
+export const toggleFavoriteJob = async (data: ToggleFavoriteJobData) => {
+  const { params } = ToggleFavoriteJobDataSchema.parse(data);
   return await api.toggleFavoriteJob(params);
 };

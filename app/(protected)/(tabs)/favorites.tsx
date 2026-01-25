@@ -1,3 +1,4 @@
+import { JobOffersList } from '@/components/job-offers-list';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
@@ -10,7 +11,7 @@ export default function FavoritesScreen() {
         </Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text>Favorites to scroll</Text>
+        <JobOffersList />
       </ScrollView>
     </View>
   );

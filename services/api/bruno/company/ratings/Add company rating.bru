@@ -1,0 +1,22 @@
+meta {
+  name: Add company rating
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASE_URL}}/company_rating/rate/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "score": 5
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
