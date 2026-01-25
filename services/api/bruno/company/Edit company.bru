@@ -1,0 +1,24 @@
+meta {
+  name: Edit company
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{BASE_URL}}/company/edit
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "1",
+    "name": "Mirosoft",
+    "description": "### What is important to us?\n\n**Global impact** – we work on projects that matter to millions of users around the world,\n\n**Innovations** – we believe that technology can be a driving force for positive change,\n\n**People** – we create a culture of cooperation, diversity, and mutual support,\n\n**Development** – we invest in your professional and personal development by offering mentoring and opportunities to work in international teams."
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

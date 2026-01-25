@@ -17,6 +17,7 @@ import { MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-com
 import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { Divider, Text } from 'react-native-paper';
 
 const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Company['address']): string => {
@@ -106,7 +107,15 @@ export default function JobDetailsScreen() {
           {/* Company info */}
           <View style={{ marginHorizontal: 10, marginTop: 20, gap: 8, paddingBottom: 10 }}>
             <Text variant="titleMedium">{job.title}</Text>
-            <Text variant="bodyMedium">{job.description}</Text>
+            <Markdown
+              style={{
+                body: { color: theme.colors.text.base },
+                paragraph: { marginBottom: 8 },
+                strong: { fontWeight: 'bold' }
+              }}
+            >
+              {job.description}
+            </Markdown>
           </View>
         </ScrollView>
       </View>
