@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "expo-router";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   Alert,
@@ -13,8 +15,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "expo-router";
 
 type TopTab = "company" | "settings";
 type SettingsScreen = "app" | "main" | "postings" | "recruiters";
@@ -52,17 +52,15 @@ export default function ProfileScreen() {
   const [settingsScreen, setSettingsScreen] = useState<SettingsScreen>("main");
   const [tab, setTab] = useState<TopTab>("company");
 
-  
   const [account, setAccount] = useState<CompanyAccount>({
     email: "romanstas1984@gmail.com",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    logoUrl: "https://i.imgur.com/EwbYomy.png",
   });
 
   const [company, setCompany] = useState<CompanyProfile>({
     about:
-      "Tworzymy oprogramowanie i usługi, które wspierają firmy i użytkowników na całym świecie. " +
-      "Budujemy rozwiązania chmurowe, narzędzia dla deweloperów oraz produkty zwiększające produktywność.",
-    name: "Microsoft Corporation",
+      "We create software and services that support businesses and users around the world. We build cloud solutions, developer tools, and productivity products.",
+    name: "Mirosoft",
   });
 
   const [recruiters, setRecruiters] = useState<Recruiter[]>([
@@ -120,12 +118,12 @@ export default function ProfileScreen() {
   );
 
   const headerTitle = useMemo(() => {
-    if (tab === "company") return "Profil firmy";
-    if (settingsScreen === "main") return "Ustawienia";
-    if (settingsScreen === "postings") return "Zarządzanie ogłoszeniami";
-    if (settingsScreen === "recruiters") return "Zarządzanie rekruterami";
-    if (settingsScreen === "app") return "Ustawienia aplikacji";
-    return "Ustawienia";
+    if (tab === "company") return "Company profile";
+    if (settingsScreen === "main") return "Settings";
+    if (settingsScreen === "postings") return "Advertisement management";
+    if (settingsScreen === "recruiters") return "Recruiter management";
+    if (settingsScreen === "app") return "Application settings";
+    return "Settings";
   }, [settingsScreen, tab]);
 
   const onAddPosting = useCallback(() => {
@@ -133,21 +131,21 @@ export default function ProfileScreen() {
       coverUrl:
         "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80&auto=format&fit=crop",
       id: uid(),
-      location: "Warszawa",
+      location: "Warsaw",
       rating: 4.5,
       salary: "$ 4500",
-      title: "Nowe ogłoszenie",
+      title: "New announcement",
     };
     setJobPosts((p) => [next, ...p]);
-    Alert.alert("Dodano", "Dodano nowe ogłoszenie (mock).");
+    Alert.alert("Added", "New ad added!");
   }, []);
 
   const onManagePosting = useCallback((post: JobPost) => {
-    Alert.alert("Zarządzanie ogłoszeniem", post.title);
+    Alert.alert("Advertisement management", post.title);
   }, []);
 
   const onRecruiterSettings = useCallback((r: Recruiter) => {
-    Alert.alert("Rekruter", `${r.name}\n${r.email}`);
+    Alert.alert("Recruiter", `${r.name}\n${r.email}`);
   }, []);
 
   const onAddRecruiterByEmail = useCallback(
@@ -156,12 +154,12 @@ export default function ProfileScreen() {
       if (!trimmed) return;
 
       if (!/^\S+@\S+\.\S+$/.test(trimmed)) {
-        Alert.alert("Błąd", "Podaj poprawny adres email.");
+        Alert.alert("Error", "Please enter a valid email address.");
         return;
       }
 
       if (recruiters.some((x) => x.email.toLowerCase() === trimmed)) {
-        Alert.alert("Info", "Ten rekruter już istnieje na liście.");
+        Alert.alert("Info", "This recruiter already exists on the list.");
         return;
       }
 
@@ -170,12 +168,12 @@ export default function ProfileScreen() {
           avatarUrl: "https://i.pravatar.cc/200?img=68",
           email: trimmed,
           id: uid(),
-          name: "Nowy rekruter",
+          name: "New recruiter",
         },
         ...prev,
       ]);
 
-      Alert.alert("Sukces", "Zaproszenie do rekrutera zostało wysłane (mock).");
+      Alert.alert("Success", "The invitation to the recruiter has been sent!");
     },
     [recruiters]
   );
@@ -203,7 +201,7 @@ export default function ProfileScreen() {
               <TouchableOpacity
                 hitSlop={8}
                 style={styles.iconBtn}
-                onPress={() => Alert.alert("Ustawienia", "Ikona ustawień (mock).")}
+                onPress={() => Alert.alert("Settings", "Settings icon")}
               >
                 <Ionicons color="#111" name="settings-outline" size={20} />
               </TouchableOpacity>
@@ -218,7 +216,7 @@ export default function ProfileScreen() {
             <TopTabButton
               active={tab === "company"}
               icon="business-outline"
-              label="Profil firmy"
+              label="Company profile"
               onPress={() => {
                 setSettingsScreen("main");
                 setTab("company");
@@ -227,7 +225,7 @@ export default function ProfileScreen() {
             <TopTabButton
               active={tab === "settings"}
               icon="settings-outline"
-              label="Ustawienia"
+              label="Settings"
               onPress={() => setTab("settings")}
             />
           </View>
@@ -263,7 +261,6 @@ export default function ProfileScreen() {
   );
 }
 
-
 function SettingsView(props: {
   jobPosts: JobPost[];
   onAddPosting: () => void;
@@ -278,8 +275,8 @@ function SettingsView(props: {
   const {
     jobPosts,
     onAddPosting,
-    onAddRecruiterByEmail,
     onBack,
+    onAddRecruiterByEmail,
     onManagePosting,
     onNavigate,
     onRecruiterSettings,
@@ -292,7 +289,7 @@ function SettingsView(props: {
       <View style={styles.contentBackWrap}>
         <TouchableOpacity style={styles.contentBackBtn} onPress={onBack}>
           <Ionicons color="#111" name="chevron-back" size={18} />
-          <Text style={styles.contentBackText}>Wstecz</Text>
+          <Text style={styles.contentBackText}>Back</Text>
         </TouchableOpacity>
       </View>
     ) : null;
@@ -335,15 +332,13 @@ function SettingsView(props: {
   return (
     <ScrollView contentContainerStyle={styles.screenPad} showsVerticalScrollIndicator={false}>
       <View style={styles.sp12} />
-      <MenuButton label="Zarządzanie ogłoszeniami" onPress={() => onNavigate("postings")} />
-      <MenuButton label="Zarządzanie rekruterami" onPress={() => onNavigate("recruiters")} />
-      <MenuButton label="Ustawienia aplikacji" onPress={() => onNavigate("app")} />
+      <MenuButton label="Advertisement management" onPress={() => onNavigate("postings")} />
+      <MenuButton label="Recruiter management" onPress={() => onNavigate("recruiters")} />
+      <MenuButton label="Application settings" onPress={() => onNavigate("app")} />
       <View style={styles.sp60} />
     </ScrollView>
   );
 }
-
-
 
 function CompanyProfileView(props: {
   account: CompanyAccount;
@@ -372,7 +367,7 @@ function CompanyProfileView(props: {
 
         <TouchableOpacity
           style={styles.logoEditBadge}
-          onPress={() => Alert.alert("Logo", "Podmień logo firmy (mock).")}
+          onPress={() => Alert.alert("Logo", "Replace company logo.")}
         >
           <Ionicons color="#fff" name="pencil" size={14} />
         </TouchableOpacity>
@@ -384,10 +379,10 @@ function CompanyProfileView(props: {
       <View style={styles.sp18} />
 
       <View style={styles.aboutBox}>
-        <Text style={styles.aboutLabel}>O firmie</Text>
+        <Text style={styles.aboutLabel}>About us</Text>
         <TextInput
           multiline
-          placeholder="Opisz firmę..."
+          placeholder="Describe company..."
           placeholderTextColor="#9aa0a6"
           style={styles.aboutInput}
           textAlignVertical="top"
@@ -399,7 +394,7 @@ function CompanyProfileView(props: {
       <View style={styles.sp18} />
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Email kontaktowy</Text>
+        <Text style={styles.fieldLabel}>Contact email</Text>
         <TextInput
           autoCapitalize="none"
           keyboardType="email-address"
@@ -415,8 +410,6 @@ function CompanyProfileView(props: {
     </ScrollView>
   );
 }
-
-
 
 function RecruitersManager(props: {
   header?: React.ReactNode;
@@ -442,7 +435,7 @@ function RecruitersManager(props: {
       <View style={styles.sp10} />
 
       <View style={styles.addByEmailBox}>
-        <Text style={styles.addByEmailTitle}>Dodawanie rekrutera po adresie email</Text>
+        <Text style={styles.addByEmailTitle}>Adding a recruiter by email address</Text>
 
         <View style={styles.addByEmailRow}>
           <TextInput
@@ -493,8 +486,6 @@ function RecruitersManager(props: {
   );
 }
 
-
-
 function PostingsManager(props: {
   header?: React.ReactNode;
   onAdd: () => void;
@@ -520,7 +511,7 @@ function PostingsManager(props: {
             )}
 
             <View style={styles.postMetaRow}>
-              <Text style={styles.postCompany}>Firma</Text>
+              <Text style={styles.postCompany}>Company</Text>
               {typeof p.rating === "number" ? (
                 <View style={styles.ratingRow}>
                   <Ionicons color="#111" name="star" size={14} />
@@ -532,7 +523,7 @@ function PostingsManager(props: {
             <View style={styles.postMetaRow}>
               <Text style={styles.postTitle}>{p.title}</Text>
               <TouchableOpacity style={styles.manageBtn} onPress={() => onManage(p)}>
-                <Text style={styles.manageBtnText}>Zarządzaj</Text>
+                <Text style={styles.manageBtnText}>Manage</Text>
               </TouchableOpacity>
             </View>
 
@@ -551,17 +542,16 @@ function PostingsManager(props: {
   );
 }
 
-
 function AppSettings() {
   return (
     <View style={styles.appSettingsWrap}>
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Powiadomienia</Text>
+        <Text style={styles.fieldLabel}>Notifications</Text>
         <TextInput placeholder="(placeholder)" placeholderTextColor="#9aa0a6" style={styles.fieldInput} />
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Preferencje</Text>
+        <Text style={styles.fieldLabel}>Preferences</Text>
         <TextInput placeholder="(placeholder)" placeholderTextColor="#9aa0a6" style={styles.fieldInput} />
       </View>
 
@@ -569,7 +559,6 @@ function AppSettings() {
     </View>
   );
 }
-
 
 function MenuButton(props: { label: string; onPress: () => void }) {
   const { label, onPress } = props;
@@ -597,7 +586,6 @@ function TopTabButton(props: {
     </TouchableOpacity>
   );
 }
-
 
 const styles = StyleSheet.create({
   addByEmailBox: {

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-sort-props */
+import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
   Alert,
@@ -10,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 type Tab = "data" | "settings";
 type SettingsScreen = "main" | "basic" | "education" | "experience" | "skills" | "app";
@@ -49,7 +49,7 @@ type Skills = {
   professional: string[];
 };
 
-const uid = () => Math.random().toString(36).slice(2);
+const generateUUID = () => Math.random().toString(36).slice(2);
 
 export default function ProfileScreen() {
   const [tab, setTab] = useState<Tab>("data");
@@ -66,12 +66,12 @@ export default function ProfileScreen() {
     lastName: "Stać",
     phone: "+48 624 836 123",
     description:
-      "Jestem osobą otwartą, ciekawą świata i nastawioną na ciągły rozwój. Lubię uczyć się nowych rzeczy, zarówno zawodowo, jak i prywatnie – technologia to dla mnie nie tylko praca, ale też pasja. W wolnym czasie chętnie czytam o nowych trendach, podążam za aktywnie spędzam czas, co pomaga mi zachować równowagę między życiem zawodowym a prywatnym. Cenię dobrą współpracę z ludźmi, szczerość i poczucie humoru. Doświadczenie zdobyte w międzynarodowym środowisku nauczyło mnie elastyczności, odpowiedzialności i otwartości na różne perspektywy, co przekłada się na moje codzienne podejście do pracy i życia.",
+      "I am an open-minded person, curious about the world and focused on continuous development. I like learning new things, both professionally and privately – technology is not only my job, but also my passion. In my free time, I enjoy reading about new trends and staying active, which helps me maintain a balance between my professional and private life. I value good cooperation with people, honesty, and a sense of humor. The experience I have gained in an international environment has taught me flexibility, responsibility, and openness to different perspectives, which translates into my everyday approach to work and life.",
   });
 
   const [education, setEducation] = useState<EducationItem[]>([
     {
-      id: uid(),
+      id: generateUUID(),
       school: "",
       degree: "",
       startDate: "",
@@ -81,7 +81,7 @@ export default function ProfileScreen() {
 
   const [experience, setExperience] = useState<ExperienceItem[]>([
     {
-      id: uid(),
+      id: generateUUID(),
       company: "",
       role: "",
       contractType: "",
@@ -107,7 +107,7 @@ export default function ProfileScreen() {
     [basic.firstName, basic.lastName]
   );
 
-  const isInSettingsSubscreen = tab === "settings" && settingsScreen !== "main";
+  const isInSettingsSubScreen = tab === "settings" && settingsScreen !== "main";
 
   const goBackFromSettings = () => {
     setSettingsScreen("main");
@@ -122,7 +122,7 @@ export default function ProfileScreen() {
     <View style={styles.screen}>
       {/* Header / Back */}
       <View style={styles.header}>
-        {isInSettingsSubscreen ? (
+        {isInSettingsSubScreen ? (
           <TouchableOpacity style={styles.backBtn} onPress={goBackFromSettings}>
             <Ionicons name="arrow-back" size={22} color="#000" />
           </TouchableOpacity>
@@ -132,34 +132,34 @@ export default function ProfileScreen() {
 
         <Text style={styles.headerTitle}>
           {tab === "data"
-            ? "Profil"
+            ? "Profile"
             : settingsScreen === "basic"
-            ? "Zmiana danych podstawowych"
+            ? "Change of basic data"
             : settingsScreen === "education"
-            ? "Edukacja."
+            ? "Education"
             : settingsScreen === "experience"
-            ? "Doświadczenie zawodowe"
+            ? "Work experience"
             : settingsScreen === "skills"
-            ? "Umiejętności."
-            : "Ustawienia"}
+            ? "Skills"
+            : "Settings"}
         </Text>
 
         <View style={styles.backBtnPlaceholder} />
       </View>
 
       {/* Top tabs */}
-      {!isInSettingsSubscreen && (
+      {!isInSettingsSubScreen && (
         <View style={styles.topTabs}>
           <TopTab
             active={tab === "data"}
             icon={tab === "data" ? "person" : "person-outline"}
-            label="Twoje dane"
+            label="Profile"
             onPress={() => switchTab("data")}
           />
           <TopTab
             active={tab === "settings"}
             icon={tab === "settings" ? "settings" : "settings-outline"}
-            label="Ustawienia"
+            label="Settings"
             onPress={() => switchTab("settings")}
           />
         </View>
@@ -170,7 +170,7 @@ export default function ProfileScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {tab === "data" && (
+        {tab === "data" ? (
           <YourData
             avatar={account.avatar}
             fullName={fullName}
@@ -178,7 +178,7 @@ export default function ProfileScreen() {
             phone={basic.phone}
             description={basic.description}
           />
-        )}
+        ) : null}
 
         {tab === "settings" && settingsScreen === "main" && (
           <SettingsMenu
@@ -186,46 +186,46 @@ export default function ProfileScreen() {
           />
         )}
 
-        {tab === "settings" && settingsScreen === "basic" && (
+        {tab === "settings" && settingsScreen === "basic" ? (
           <BasicDataEditor
             accountEmail={account.email}
             basic={basic}
             onChange={setBasic}
-            onSave={() => Alert.alert("Zapisano", "Dane podstawowe zapisane.")}
+            onSave={() => Alert.alert("Saved", "Basic data saved!")}
           />
-        )}
+        ) : null}
 
-        {tab === "settings" && settingsScreen === "education" && (
+        {tab === "settings" && settingsScreen === "education" ? (
           <EducationEditor
             items={education}
             onChange={setEducation}
-            onSave={() => Alert.alert("Zapisano", "Edukacja zapisana.")}
+            onSave={() => Alert.alert("Saved", "Education saved!")}
           />
-        )}
+        ) : null}
 
-        {tab === "settings" && settingsScreen === "experience" && (
+        {tab === "settings" && settingsScreen === "experience" ? (
           <ExperienceEditor
             items={experience}
             onChange={setExperience}
-            onSave={() => Alert.alert("Zapisano", "Doświadczenie zapisane.")}
+            onSave={() => Alert.alert("Saved", "Work experience saved!")}
           />
-        )}
+        ) : null}
 
-        {tab === "settings" && settingsScreen === "skills" && (
+        {tab === "settings" && settingsScreen === "skills" ? (
           <SkillsEditor
             skills={skills}
             onChange={setSkills}
-            onSave={() => Alert.alert("Zapisano", "Umiejętności zapisane.")}
+            onSave={() => Alert.alert("Saved", "Skills saved!")}
           />
-        )}
+        ) : null}
 
-        {tab === "settings" && settingsScreen === "app" && (
+        {tab === "settings" && settingsScreen === "app" ? (
           <AppSettings
             onSave={() =>
-              Alert.alert("Zapisano", "Ustawienia aplikacji zapisane.")
+              Alert.alert("Saved", "App settings saved!")
             }
           />
-        )}
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -289,15 +289,15 @@ function YourData({
 function SettingsMenu({ onOpen }: { onOpen: (s: SettingsScreen) => void }) {
   return (
     <View style={styles.menu}>
-      <MenuButton label="Dane podstawowe." onPress={() => onOpen("basic")} />
-      <MenuButton label="Edukacja." onPress={() => onOpen("education")} />
+      <MenuButton label="Basic data" onPress={() => onOpen("basic")} />
+      <MenuButton label="Education" onPress={() => onOpen("education")} />
       <MenuButton
-        label="Doświadczenia zawodowe."
+        label="Work experience"
         onPress={() => onOpen("experience")}
       />
-      <MenuButton label="Umiejętności." onPress={() => onOpen("skills")} />
+      <MenuButton label="Skills" onPress={() => onOpen("skills")} />
       <MenuButton
-        label="Ustawienia aplikacji."
+        label="Application settings"
         onPress={() => onOpen("app")}
       />
     </View>
@@ -330,25 +330,25 @@ function BasicDataEditor({
       </TouchableOpacity>
 
       <LabeledInput
-        label="Imię:"
+        label="First Name:"
         value={basic.firstName}
         onChangeText={(v) => onChange({ ...basic, firstName: v })}
       />
       <LabeledInput
-        label="Nazwisko:"
+        label="Last Name:"
         value={basic.lastName}
         onChangeText={(v) => onChange({ ...basic, lastName: v })}
       />
       <LabeledInput label="E-mail:" value={accountEmail} readOnly />
       <LabeledInput
-        label="Telefon:"
+        label="Phone number:"
         value={basic.phone}
         onChangeText={(v) => onChange({ ...basic, phone: v })}
         keyboardType="phone-pad"
       />
 
       <View style={styles.textAreaBlock}>
-        <Text style={styles.inputLabel}>Opis profilu:</Text>
+        <Text style={styles.inputLabel}>Profile description:</Text>
         <TextInput
           style={styles.textArea}
           value={basic.description}
@@ -370,7 +370,7 @@ function EducationEditor({
   onChange: (items: EducationItem[]) => void;
   onSave: () => void;
 }) {
-  const add = () => onChange([...items, { id: uid(), school: "", degree: "", startDate: "", endDate: "" }]);
+  const add = () => onChange([...items, { id: generateUUID(), school: "", degree: "", startDate: "", endDate: "" }]);
 
   const update = (id: string, patch: Partial<EducationItem>) => {
     onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
@@ -379,16 +379,15 @@ function EducationEditor({
   return (
     <View style={styles.form}>
       {items.map((it) => (
-        <React.Fragment key={it.id}>
-        <View style={styles.card}>
+        <View style={styles.card} key={it.id}>
           <LabeledInput
-            label="Nazwa placówki edukacyjnej."
+            label="Name of educational institution"
             value={it.school}
             onChangeText={(v) => update(it.id, { school: v })}
             placeholder="—"
           />
           <LabeledInput
-            label="Stopień"
+            label="Degree"
             value={it.degree}
             onChangeText={(v) => update(it.id, { degree: v })}
             placeholder="—"
@@ -397,16 +396,15 @@ function EducationEditor({
             <SmallInput
               value={it.startDate}
               onChangeText={(v) => update(it.id, { startDate: v })}
-              placeholder="Data rozpoczęcia."
+              placeholder="Start date"
             />
             <SmallInput
               value={it.endDate}
               onChangeText={(v) => update(it.id, { endDate: v })}
-              placeholder="Data zakończenia."
+              placeholder="End date"
             />
           </View>
         </View>
-              </React.Fragment>
       ))}
 
       <TouchableOpacity style={styles.plusFab} onPress={add}>
@@ -414,7 +412,7 @@ function EducationEditor({
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
-        <Text style={styles.saveLinkText}>Zapisz</Text>
+        <Text style={styles.saveLinkText}>Save</Text>
       </TouchableOpacity>
     </View>
   );
@@ -433,7 +431,7 @@ function ExperienceEditor({
     onChange([
       ...items,
       {
-        id: uid(),
+        id: generateUUID(),
         company: "",
         role: "",
         contractType: "",
@@ -449,10 +447,9 @@ function ExperienceEditor({
   return (
     <View style={styles.form}>
       {items.map((it) => (
-        <React.Fragment key={it.id}>
-        <View style={styles.card}>
+        <View style={styles.card} key={it.id}>
           <LabeledInput
-            label="Nazwa zakładu pracy."
+            label="Workplace name"
             value={it.company}
             onChangeText={(v) => update(it.id, { company: v })}
             placeholder="—"
@@ -462,12 +459,12 @@ function ExperienceEditor({
             <SmallInput
               value={it.role}
               onChangeText={(v) => update(it.id, { role: v })}
-              placeholder="Stanowisko."
+              placeholder="Role"
             />
             <SmallInput
               value={it.startDate}
               onChangeText={(v) => update(it.id, { startDate: v })}
-              placeholder="Data rozpoczęcia."
+              placeholder="Start date"
             />
           </View>
 
@@ -475,16 +472,15 @@ function ExperienceEditor({
             <SmallInput
               value={it.contractType}
               onChangeText={(v) => update(it.id, { contractType: v })}
-              placeholder="Rodzaj umowy."
+              placeholder="Contract type"
             />
             <SmallInput
               value={it.endDate}
               onChangeText={(v) => update(it.id, { endDate: v })}
-              placeholder="Data zakończenia."
+              placeholder="End date"
             />
           </View>
         </View>
-              </React.Fragment>
       ))}
 
       <TouchableOpacity style={styles.plusFab} onPress={add}>
@@ -492,7 +488,7 @@ function ExperienceEditor({
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
-        <Text style={styles.saveLinkText}>Zapisz</Text>
+        <Text style={styles.saveLinkText}>Save</Text>
       </TouchableOpacity>
     </View>
   );
@@ -537,7 +533,7 @@ function SkillsEditor({
   return (
     <View style={styles.form}>
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Umiejętności językowe:</Text>
+        <Text style={styles.sectionHeader}>Language skills:</Text>
         <View style={styles.chips}>
           {skills.languages.map((s) => (
             <React.Fragment key={s}><Chip text={s} onRemove={() => remove("languages", s)} /></React.Fragment>
@@ -563,16 +559,16 @@ function SkillsEditor({
               setAddingLang(false);
               setNewValue("");
             }}
-            placeholder="Np. Angielski C1"
+            placeholder="E.g. English C1"
           />
         )}
       </View>
 
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Umiejętności zawodowe</Text>
+        <Text style={styles.sectionHeader}>Professional skills</Text>
         <View style={styles.chips}>
           {skills.professional.map((s) => (
-            <React.Fragment key={s}><Chip text={s} onRemove={() => remove("professional", s)} /></React.Fragment>
+            <Chip key={s} text={s} onRemove={() => remove("professional", s)} />
           ))}
           <TouchableOpacity
             style={styles.chipPlus}
@@ -595,13 +591,13 @@ function SkillsEditor({
               setAddingProf(false);
               setNewValue("");
             }}
-            placeholder="Np. React Native"
+            placeholder="E.g. React Native"
           />
         )}
       </View>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
-        <Text style={styles.saveLinkText}>Zapisz</Text>
+        <Text style={styles.saveLinkText}>Save</Text>
       </TouchableOpacity>
     </View>
   );
@@ -611,14 +607,14 @@ function AppSettings({ onSave }: { onSave: () => void }) {
   return (
     <View style={styles.form}>
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Ustawienia aplikacji</Text>
+        <Text style={styles.sectionHeader}>Application settings</Text>
         <Text style={styles.subText}>
-          Placeholder — dodaj tutaj np. powiadomienia, motyw, język itd.
+          Placeholder - add here, for example, notifications, theme, language, etc.
         </Text>
       </View>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
-        <Text style={styles.saveLinkText}>Zapisz</Text>
+        <Text style={styles.saveLinkText}>Save</Text>
       </TouchableOpacity>
     </View>
   );
@@ -706,13 +702,13 @@ function InlineAdd({
         placeholder={placeholder}
       />
       <TouchableOpacity style={styles.inlineAddBtn} onPress={onAdd}>
-        <Text style={styles.inlineAddBtnText}>Dodaj</Text>
+        <Text style={styles.inlineAddBtnText}>Add</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.inlineAddBtn, styles.inlineAddBtnGhost]}
         onPress={onCancel}
       >
-        <Text style={styles.inlineAddBtnText}>Anuluj</Text>
+        <Text style={styles.inlineAddBtnText}>Cancel</Text>
       </TouchableOpacity>
     </View>
   );
