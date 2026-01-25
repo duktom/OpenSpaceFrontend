@@ -1,0 +1,25 @@
+meta {
+  name: Register | Company
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASE_URL}}/account/register/company
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "company@gmail.com",
+    "password": "password",
+    "name": "Mirosoft",
+    "ein": "1234567890"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

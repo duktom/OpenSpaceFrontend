@@ -11,6 +11,7 @@ import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { api } from '@/services/api';
+import { Company } from '@/services/api/company/company.types';
 import { Job } from '@/services/api/job/job.types';
 import { MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-company';
 import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
@@ -18,8 +19,9 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 
-const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Job['company']['address']): string => {
-  return `${city} ${street} ${buildingNumber}/${apartmentNumber} ${postalCode}`
+const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Company['address']): string => {
+  const building = buildingNumber && apartmentNumber ? `${buildingNumber}/${apartmentNumber}` : '';
+  return `${city ?? ''} ${street ?? ''} ${building} ${postalCode ?? ''}`
 }
 
 export default function JobDetailsScreen() {
@@ -27,17 +29,22 @@ export default function JobDetailsScreen() {
   const jobId = Number(Array.isArray(id) ? id[0] : id);
   const theme = useAppTheme();
   const router = useRouter();
-  const { data: job, isLoading, isError, error } = api.job.queries.useGetJobById({ id: jobId });
+
+  const { data: job, isLoading: isJobLoading, isError: isJobError, error: jobError } = api.job.queries.useGetJobById({ id: jobId });
+  const { data: company, isLoading: isCompanyLoading, isError: isCompanyError, error: companyError } = api.company.queries.useGetCompanyById({ id: job?.companyId! });
+  const { data: companyRating, isLoading: isCompanyRatingLoading, isError: isCompanyRatingError, error: companyRatingError } = api.companyRating.queries.useGetCompanyRatingById({ id: job?.companyId! });
 
   const applyToJob = () => {
     alert('Functionality not implemented yet!');
   };
 
-  if (isLoading) return <LoadingIconView />;
-  if (isError || !job) return <ErrorView error={error} />;
+  if (isJobLoading || isCompanyLoading || isCompanyRatingLoading) return <LoadingIconView />;
+  if (isJobError || !job || isCompanyError || !company || isCompanyRatingError || !companyRating) {
+    return <ErrorView error={jobError || companyError || companyRatingError} />;
+  };
 
   const navigateToCompanyProfile = () => {
-    router.push(`/company/${job.company.id}`);
+    router.push(`/company/${job.companyId}`);
   };
 
   return (
@@ -63,11 +70,11 @@ export default function JobDetailsScreen() {
 
         {/* Short company info */}
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={navigateToCompanyProfile}>
-          <Text className="!font-bold" variant="titleLarge" style={{ color: theme.colors.primary }}>
-            {job.company.name}
+          <Text className="!font-bold" style={{ color: theme.colors.primary }} variant="titleLarge">
+            {company.name}
           </Text>
           <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
-          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{formatCompanyLocation(job.company.address)}</Text>
+          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{formatCompanyLocation(company.address)}</Text>
         </TouchableOpacity>
 
         <Divider style={{ marginTop: 10 }} />
@@ -76,14 +83,15 @@ export default function JobDetailsScreen() {
           {/* Company account */}
           <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={navigateToCompanyProfile}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Avatar isVerified source={{ uri: job.company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }} />
+              <Avatar isVerified source={{ uri: company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }} />
               <View>
-                <Text className="!font-bold" variant="titleMedium" style={{ color: theme.colors.primary }}>
-                  {job.company.name}
+                <Text className="!font-bold" style={{ color: theme.colors.primary }} variant="titleMedium">
+                  {company.name}
                 </Text>
-                <Text variant="bodySmall">{`Account created in ${job.company.creationDate.getFullYear()}`}</Text>
+                {/* !TODO: Add company creation date */}
+                {/* <Text variant="bodySmall">{`Account created in ${job.company.creationDate.getFullYear()}`}</Text> */}
                 <Rating
-                  rating={job.company.rating}
+                  rating={companyRating.rating}
                   textProps={{
                     variant: 'bodySmall',
                     style: {

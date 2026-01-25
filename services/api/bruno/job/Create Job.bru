@@ -1,0 +1,26 @@
+meta {
+  name: Create Job
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}/job/add
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "company_id": 1,
+    "title": "Database administrator (DBA)",
+    "description": "Join the Microsoft engineering team and help us manage global database systems that are critical to our business. We are looking for an expert who will ensure optimal performance, availability, and security for our data platforms.\n\nRequired qualifications:\n- Minimum 3 years of experience as a DBA.\n- Proficiency in MS SQL Server and strong experience with the Microsoft Azure Data platform.\n- Ability to write and optimize T-SQL code.\n- Knowledge of database security and automation issues (e.g., PowerShell).",
+    "payoff": 6000,
+    "expiry_date": "2027-01-25T15:51:51.083549+01:00"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Delete company
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{BASE_URL}}/company/delete
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

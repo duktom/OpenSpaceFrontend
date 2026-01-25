@@ -1,27 +1,27 @@
 import { z } from 'zod';
 
-const AccountTypeSchema = z.enum(['applicant', 'recruiter', 'admin']);
+const AccountTypeSchema = z.enum(['applicant', 'admin']); // 'recruiter' is no longer used
 export const AuthTokenSchema = z.string().trim().nonempty();
 
 // Both FE & BE
-const SharedBaseAccountSchema = z.object({
+const BaseAccountSchema = z.object({
   id: z.number().min(1),
   email: z.email(),
   type: AccountTypeSchema.nullable(),
 });
 
 // DTO
-export const AccountDtoSchema = SharedBaseAccountSchema.extend({
+export const AccountDtoSchema = BaseAccountSchema.extend({
   is_verified: z.boolean(),
-  creation_date: z.iso.datetime(),
-  exp_date: z.iso.datetime().nullable(),
+  created_at: z.iso.datetime({ offset: true }),
+  exp_date: z.iso.datetime({ offset: true }).nullable(),
 });
 export type AccountDto = z.infer<typeof AccountDtoSchema>;
 
 // FE Entity
-export const AccountSchema = SharedBaseAccountSchema.extend({
+export const AccountSchema = BaseAccountSchema.extend({
   isVerified: z.boolean(),
-  creationDate: z.date(),
+  createdAt: z.date(),
   expDate: z.date().nullable(),
 });
 export type Account = z.infer<typeof AccountSchema>;
@@ -58,64 +58,3 @@ export const LogoutResponseSchema = z.object({
 });
 export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
 
-// Register Company
-// Frontend DATA
-export const RegisterCompanyDataSchema = LoginBodySchema.extend({
-  confirmPassword: z.string().trim().nonempty('Please confirm your password'),
-  name: z.string().trim().nonempty('Name is required'),
-  ein: z
-    .string()
-    .trim()
-    .length(10, 'EIN must be exactly 10 characters')
-    .nonempty('EIN is required'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-export type RegisterCompanyData = z.infer<typeof RegisterCompanyDataSchema>;
-
-// Register Company
-// Backend DTO'S
-export const RegisterCompanyBodySchema = LoginBodySchema.extend({
-  name: z.string().trim().nonempty('Name is required'),
-  ein: z
-    .string()
-    .trim()
-    .length(10, 'EIN must be exactly 10 characters')
-    .nonempty('EIN is required'),
-});
-export type RegisterCompanyBody = z.infer<typeof RegisterCompanyBodySchema>;
-export const RegisterCompanyResponseSchema = z.object({
-  msg: z.string().trim().nonempty(),
-  account_id: AccountDtoSchema.shape.id,
-  applicant_id: AccountDtoSchema.shape.id.nullable(),
-});
-export type RegisterCompanyResponse = z.infer<typeof RegisterCompanyResponseSchema>;
-
-// Register User
-// Frontend DATA
-export const RegisterUserDataSchema = LoginBodySchema.extend({
-  confirmPassword: z.string().trim().nonempty('Please confirm your password'),
-  firstName: z.string().trim().nonempty('First name is required'),
-  lastName: z.string().trim().nonempty('Last name is required'),
-  birthDate: z.date().nullable(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-export type RegisterUserData = z.infer<typeof RegisterUserDataSchema>;
-
-// Register User
-// Backend DTO'S
-export const RegisterUserBodySchema = LoginBodySchema.extend({
-  first_name: z.string().trim().nonempty('First name is required'),
-  last_name: z.string().trim().nonempty('Last name is required'),
-  birth_date: z.iso.datetime().nullable(),
-});
-export type RegisterUserBody = z.infer<typeof RegisterUserBodySchema>;
-export const RegisterUserResponseSchema = z.object({
-  msg: z.string().trim().nonempty(),
-  account_id: AccountDtoSchema.shape.id,
-  applicant_id: AccountDtoSchema.shape.id.nullable(),
-});
-export type RegisterUserResponse = z.infer<typeof RegisterUserResponseSchema>;
