@@ -11,6 +11,7 @@ import { MOCK_RATINGS } from '@/services/api/mock/mock-opinion';
 import { MOCK_PAST_DATE } from '@/services/api/mock/mock-past-date';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { Divider, Text } from 'react-native-paper';
 
 const getCompanyFoundedText = (creationDate: Date): string => {
@@ -86,44 +87,17 @@ export default function CompanyProfileScreen() {
         {/* Company description */}
         {company.description ? (
           <View style={{ marginHorizontal: 10, marginVertical: 15 }}>
-            <Text style={{ color: theme.colors.text.base }} variant="bodyMedium">
+            <Markdown
+              style={{
+                body: { color: theme.colors.text.base },
+                paragraph: { marginBottom: 8 },
+                strong: { fontWeight: 'bold' }
+              }}
+            >
               {company.description}
-            </Text>
+            </Markdown>
           </View>
         ): null}
-
-        {/* Example values section */}
-        <View style={{ marginHorizontal: 10, marginTop: 15 }}>
-          <Text className="!font-bold" style={{ marginBottom: 12 }} variant="titleMedium">
-            Co jest dla nas ważne?
-          </Text>
-          <View style={{ gap: 10 }}>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Text style={{ marginTop: 2 }}>●</Text>
-              <Text style={{ flex: 1, color: theme.colors.text.base }} variant="bodyMedium">
-                Globalny wpływ – pracujemy nad projektami, które mają znaczenie dla milionów użytkowników na całym świecie
-              </Text>
-            </View>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Text style={{ marginTop: 2 }}>●</Text>
-              <Text style={{ flex: 1, color: theme.colors.text.base }} variant="bodyMedium">
-                Innowacje – wierzymy, że technologia może być siłą napędową pozytywnych zmian
-              </Text>
-            </View>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Text style={{ marginTop: 2 }}>●</Text>
-              <Text style={{ flex: 1, color: theme.colors.text.base }} variant="bodyMedium">
-                Ludzie – tworzymy kulturę współpracy, różnorodności i wzajemnego wsparcia
-              </Text>
-            </View>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Text style={{ marginTop: 2 }}>●</Text>
-              <Text style={{ flex: 1, color: theme.colors.text.base }} variant="bodyMedium">
-                Rozwój – inwestujemy w Twój rozwój zawodowy i osobisty, oferując mentoring i możliwości pracy w międzynarodowych zespołach
-              </Text>
-            </View>
-          </View>
-        </View>
 
         {/* Company rating section */}
         <View style={{ marginHorizontal: 10, marginVertical: 20 }}>

@@ -12,14 +12,14 @@ export const MOCK_RATINGS: Opinion[] = [
     author: 'Roman Staś',
     avatar: 'https://i.imgur.com/gpXgFWP.jpeg',
     rating: 5,
-    text: 'Fantastyczne miejsce do pracy! Zespół jest super, a projekty bardzo ciekawe.',
+    text: 'A fantastic place to work! The team is great, and the projects are very interesting.',
   },
   {
     id: 2,
     author: 'Magdalena B.',
     avatar: 'https://i.imgur.com/rjMjY3w.png',
     rating: 5,
-    text: 'Świetna firma, gdzie się rozwija umiejętności i jest wspierana praca nad ważnymi projektami.',
+    text: 'A great company where you can develop your skills and work on important projects with support.',
   },
   {
     id: 3,
@@ -33,6 +33,6 @@ export const MOCK_RATINGS: Opinion[] = [
     author: 'Piotr Nowak',
     avatar: 'https://i.imgur.com/l6fHBdF.jpeg',
     rating: 5,
-    text: 'Fantastyczne miejsce do pracy! Zespół jest super, a projekty bardzo ciekawe.',
+    text: 'A fantastic place to work! The team is great, and the projects are very interesting.',
   },
 ];
