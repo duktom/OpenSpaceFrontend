@@ -22,7 +22,7 @@ export type JobDto = z.infer<typeof JobSchemaDto>;
 export const JobSchema = BaseJobSchema.extend({
   postingDate: z.date(),
   expiryDate: z.date().nullable(),
-  postingImgId: z.string().trim().nonempty(),
+  postingImgId: z.string().trim().nullable(),
   postingImgLink: z.url().nullable(),
   companyId: CompanySchema.shape.id,
 });
