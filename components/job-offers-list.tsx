@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { Centered } from './centered';
 import { ErrorView } from './error/error-view';
 import { Rating } from './rating';
 import { ShimmerSkeleton } from './shimmer-skeleton';
@@ -24,14 +25,13 @@ export function JobOffersList() {
     );
   }
   if (isError || !jobs) return <ErrorView error={error} />;
+  if (jobs.length === 0) {
+    return <Centered><Text style={{padding: 20}} variant='bodyLarge'>{'No jobs added yet!'}</Text></Centered>;
+  };
 
-  return (
-    <>
-      {Array.from({ length: 5 }).map((_, index) => (
-        <JobOffer key={index} job={jobs[0]} />
-      ))}
-    </>
-  );
+  return jobs.map((job) => (
+    <JobOffer key={job.id} job={job} />
+  ))
 }
 
 type JobOfferProps = {

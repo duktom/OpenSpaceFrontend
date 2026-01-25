@@ -1,4 +1,4 @@
-export interface Opinion {
+export type Opinion ={
   id: number;
   author: string;
   avatar: string;

@@ -1,0 +1,23 @@
+meta {
+  name: Login | Company
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}/account/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "email": "company@gmail.com",
+      "password": "password"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

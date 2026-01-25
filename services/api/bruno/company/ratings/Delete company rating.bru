@@ -1,0 +1,16 @@
+meta {
+  name: Delete company rating
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{BASE_URL}}/company_rating/delete_rate/1
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

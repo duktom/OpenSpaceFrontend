@@ -1,52 +1,25 @@
 import { apiClient } from '../api-client';
+import { GetTokenResponseSchemaDtoToData, LoginResponseSchemaDtoToData, LogoutResponseSchemaDtoToData } from './account.adapter';
 import {
   GetTokenResponse,
-  GetTokenResponseSchema,
   LoginBody,
   LoginBodySchema,
   LoginResponse,
-  LoginResponseSchema,
-  LogoutResponse,
-  LogoutResponseSchema,
-  RegisterCompanyBody,
-  RegisterCompanyBodySchema,
-  RegisterCompanyResponse,
-  RegisterCompanyResponseSchema,
-  RegisterUserBody,
-  RegisterUserBodySchema,
-  RegisterUserResponse,
-  RegisterUserResponseSchema,
+  LogoutResponse
 } from './account.types';
 
-export const getToken = async (): Promise<GetTokenResponse> => {
+export const getToken = async () => {
   const res = await apiClient.get<GetTokenResponse>('/account/me');
-  return GetTokenResponseSchema.parse(res.data);
+  return GetTokenResponseSchemaDtoToData.parse(res.data);
 };
 
-export const login = async (body: LoginBody): Promise<LoginResponse> => {
+export const login = async (body: LoginBody) => {
   const validatedBody = LoginBodySchema.parse(body);
   const res = await apiClient.post<LoginResponse>('/account/login', validatedBody);
-  return LoginResponseSchema.parse(res.data);
+  return LoginResponseSchemaDtoToData.parse(res.data);
 };
 
-export const logout = async (): Promise<LogoutResponse> => {
+export const logout = async () => {
   const res = await apiClient.post<LogoutResponse>('/account/logout');
-  return LogoutResponseSchema.parse(res.data);
-};
-
-export const registerCompany = async (
-  body: RegisterCompanyBody
-): Promise<RegisterCompanyResponse> => {
-  const validatedBody = RegisterCompanyBodySchema.parse(body);
-  const res = await apiClient.post<RegisterCompanyResponse>(
-    '/account/register/company',
-    validatedBody
-  );
-  return RegisterCompanyResponseSchema.parse(res.data);
-};
-
-export const registerUser = async (body: RegisterUserBody): Promise<RegisterUserResponse> => {
-  const validatedBody = RegisterUserBodySchema.parse(body);
-  const res = await apiClient.post<RegisterUserResponse>('/account/register/user', validatedBody);
-  return RegisterUserResponseSchema.parse(res.data);
+  return LogoutResponseSchemaDtoToData.parse(res.data);
 };

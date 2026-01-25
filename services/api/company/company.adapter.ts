@@ -1,4 +1,4 @@
-import { Company, CompanySchemaDto } from './company.types';
+import { Company, CompanySchemaDto, GetCompanyByIdDataSchema, RegisterCompanyBody, RegisterCompanyDataSchema, RegisterCompanyResponseSchema } from './company.types';
 
 export const CompanyDtoToEntitySchema = CompanySchemaDto.transform(
   (data) =>
@@ -16,7 +16,24 @@ export const CompanyDtoToEntitySchema = CompanySchemaDto.transform(
         city: data.address.city,
         postalCode: data.address.city,
       },
-      rating: data.rating,
-      creationDate: new Date(data.creation_date),
     }) satisfies Company
 );
+
+export const RegisterCompanyDataToDtoSchema = RegisterCompanyDataSchema.transform((data) => ({
+  body: {
+    email: data.email,
+    password: data.password,
+    name: data.name,
+    ein: data.ein,
+  } satisfies RegisterCompanyBody,
+}));
+export const RegisterCompanyResponseSchemaDtoToData = RegisterCompanyResponseSchema.transform((data) => ({
+  accountId: data.account_id,
+  companyId: data.company_id,
+}));
+
+export const GetCompanyByIdDataToDtoSchema = GetCompanyByIdDataSchema.transform((data) => ({
+  params: {
+    id: data.id,
+  },
+}));
