@@ -45,6 +45,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => <UserIcon color={color} height={size} width={size} />,
         }}
       />
+      <Tabs.Screen
+        name="company-profile"
+        options={{
+          title: 'Company Profile',
+          tabBarIcon: ({ color, size }) => <UserIcon color={color} height={size} width={size} />,
+        }}
+      />
     </Tabs>
   );
 }

@@ -64,7 +64,7 @@ export default function JobDetailsScreen() {
           <Toolbar jobId={jobId} />
           <Image
             resizeMode="contain"
-            source={{ uri: job.profileImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE}}
+            source={{ uri: job.postingImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE}}
             style={getImageSizeAccordingToScreenWidth(mockJobImage, 1)}
           />
         </View>
