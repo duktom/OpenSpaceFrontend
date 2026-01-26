@@ -3,8 +3,7 @@ import { CompanyRatingDto } from '../company/rating/company-rating.types';
 
 export const MOCK_DEFAULT_COMPANY_PROFILE_IMAGE = 'https://i.imgur.com/EwbYomy.png';
 
-const MOCK_COMPANY_DESCRIPTION = 
-`### What is important to us?
+const MOCK_COMPANY_DESCRIPTION = `### What is important to us?
 
 **Global impact** – we work on projects that matter to millions of users around the world,
 
@@ -13,7 +12,7 @@ const MOCK_COMPANY_DESCRIPTION =
 **People** – we create a culture of cooperation, diversity, and mutual support,
 
 **Development** – we invest in your professional and personal development by offering mentoring and opportunities to work in international teams.
-`
+`;
 
 export const MOCK_COMPANY: CompanyDto = {
   id: 1,

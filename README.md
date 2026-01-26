@@ -69,6 +69,7 @@ pnpm android
 # Start iOS Simulator
 pnpm ios
 ```
+
 **Controls** (Press in terminal)
 
 - `a`: Open Android

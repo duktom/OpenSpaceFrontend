@@ -4,15 +4,14 @@ import { MOCK_PAST_DATE } from './mock-past-date';
 
 export const MOCK_DEFAULT_JOB_PROFILE_IMAGE = 'https://i.imgur.com/KnGOSrE.png';
 
-const MOCK_JOB_DESCRIPTION = 
-`Join the Microsoft engineering team and help us manage global database systems that are critical to our business. We are looking for an expert who will ensure optimal performance, availability, and security for our data platforms.
+const MOCK_JOB_DESCRIPTION = `Join the Microsoft engineering team and help us manage global database systems that are critical to our business. We are looking for an expert who will ensure optimal performance, availability, and security for our data platforms.
 
 *Required qualifications*:
 - Minimum 3 years of experience as a DBA.
 - Proficiency in MS SQL Server and strong experience with the Microsoft Azure Data platform.
 - Ability to write and optimize T-SQL code.
 - Knowledge of database security and automation issues (e.g., PowerShell).
-`
+`;
 
 export const MOCK_JOB: JobDto = {
   id: 1,

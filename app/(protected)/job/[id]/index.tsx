@@ -20,10 +20,16 @@ import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { Divider, Text } from 'react-native-paper';
 
-const formatCompanyLocation = ({city, street, buildingNumber, apartmentNumber, postalCode}: Company['address']): string => {
+const formatCompanyLocation = ({
+  city,
+  street,
+  buildingNumber,
+  apartmentNumber,
+  postalCode,
+}: Company['address']): string => {
   const building = buildingNumber && apartmentNumber ? `${buildingNumber}/${apartmentNumber}` : '';
-  return `${city ?? ''} ${street ?? ''} ${building} ${postalCode ?? ''}`
-}
+  return `${city ?? ''} ${street ?? ''} ${building} ${postalCode ?? ''}`;
+};
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -31,9 +37,24 @@ export default function JobDetailsScreen() {
   const theme = useAppTheme();
   const router = useRouter();
 
-  const { data: job, isLoading: isJobLoading, isError: isJobError, error: jobError } = api.job.queries.useGetJobById({ id: jobId });
-  const { data: company, isLoading: isCompanyLoading, isError: isCompanyError, error: companyError } = api.company.queries.useGetCompanyById({ id: job?.companyId! });
-  const { data: companyRating, isLoading: isCompanyRatingLoading, isError: isCompanyRatingError, error: companyRatingError } = api.companyRating.queries.useGetCompanyRatingById({ id: job?.companyId! });
+  const {
+    data: job,
+    isLoading: isJobLoading,
+    isError: isJobError,
+    error: jobError,
+  } = api.job.queries.useGetJobById({ id: jobId });
+  const {
+    data: company,
+    isLoading: isCompanyLoading,
+    isError: isCompanyError,
+    error: companyError,
+  } = api.company.queries.useGetCompanyById({ id: job?.companyId! });
+  const {
+    data: companyRating,
+    isLoading: isCompanyRatingLoading,
+    isError: isCompanyRatingError,
+    error: companyRatingError,
+  } = api.companyRating.queries.useGetCompanyRatingById({ id: job?.companyId! });
 
   const applyToJob = () => {
     alert('Functionality not implemented yet!');
@@ -42,7 +63,7 @@ export default function JobDetailsScreen() {
   if (isJobLoading || isCompanyLoading || isCompanyRatingLoading) return <LoadingIconView />;
   if (isJobError || !job || isCompanyError || !company || isCompanyRatingError || !companyRating) {
     return <ErrorView error={jobError || companyError || companyRatingError} />;
-  };
+  }
 
   const navigateToCompanyProfile = () => {
     router.push(`/company/${job.companyId}`);
@@ -64,7 +85,7 @@ export default function JobDetailsScreen() {
           <Toolbar jobId={jobId} />
           <Image
             resizeMode="contain"
-            source={{ uri: job.postingImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE}}
+            source={{ uri: job.postingImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE }}
             style={getImageSizeAccordingToScreenWidth(mockJobImage, 1)}
           />
         </View>
@@ -75,7 +96,9 @@ export default function JobDetailsScreen() {
             {company.name}
           </Text>
           <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
-          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>{formatCompanyLocation(company.address)}</Text>
+          <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>
+            {formatCompanyLocation(company.address)}
+          </Text>
         </TouchableOpacity>
 
         <Divider style={{ marginTop: 10 }} />
@@ -84,9 +107,16 @@ export default function JobDetailsScreen() {
           {/* Company account */}
           <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={navigateToCompanyProfile}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              <Avatar isVerified source={{ uri: company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }} />
+              <Avatar
+                isVerified
+                source={{ uri: company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }}
+              />
               <View>
-                <Text className="!font-bold" style={{ color: theme.colors.primary }} variant="titleMedium">
+                <Text
+                  className="!font-bold"
+                  style={{ color: theme.colors.primary }}
+                  variant="titleMedium"
+                >
                   {company.name}
                 </Text>
                 {/* !TODO: Add company creation date */}
@@ -111,7 +141,7 @@ export default function JobDetailsScreen() {
               style={{
                 body: { color: theme.colors.text.base },
                 paragraph: { marginBottom: 8 },
-                strong: { fontWeight: 'bold' }
+                strong: { fontWeight: 'bold' },
               }}
             >
               {job.description}

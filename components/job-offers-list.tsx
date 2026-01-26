@@ -26,12 +26,16 @@ export function JobOffersList() {
   }
   if (isError || !jobs) return <ErrorView error={error} />;
   if (jobs.length === 0) {
-    return <Centered><Text style={{padding: 20}} variant='bodyLarge'>{'No jobs added yet!'}</Text></Centered>;
-  };
+    return (
+      <Centered>
+        <Text style={{ padding: 20 }} variant="bodyLarge">
+          {'No jobs added yet!'}
+        </Text>
+      </Centered>
+    );
+  }
 
-  return jobs.map((job) => (
-    <JobOffer key={job.id} job={job} />
-  ))
+  return jobs.map((job) => <JobOffer key={job.id} job={job} />);
 }
 
 type JobOfferProps = {

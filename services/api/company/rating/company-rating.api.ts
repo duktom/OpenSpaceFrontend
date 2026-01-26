@@ -1,11 +1,21 @@
 import { sleep } from '@/helpers/sleep';
 import { MOCK_COMPANY_RATING } from '../../mock/mock-company';
-import { AddCompanyRatingResponseSchemaDtoToData, CompanyRatingDtoToEntitySchema } from './company-rating.adapter';
-import { AddCompanyRatingBody, AddCompanyRatingBodySchema, AddCompanyRatingParams, AddCompanyRatingParamsSchema, DeleteCompanyRatingParams, DeleteCompanyRatingParamsSchema, GetCompanyRatingByIdParams, GetCompanyRatingByIdParamsSchema } from './company-rating.types';
+import {
+  AddCompanyRatingResponseSchemaDtoToData,
+  CompanyRatingDtoToEntitySchema,
+} from './company-rating.adapter';
+import {
+  AddCompanyRatingBody,
+  AddCompanyRatingBodySchema,
+  AddCompanyRatingParams,
+  AddCompanyRatingParamsSchema,
+  DeleteCompanyRatingParams,
+  DeleteCompanyRatingParamsSchema,
+  GetCompanyRatingByIdParams,
+  GetCompanyRatingByIdParamsSchema,
+} from './company-rating.types';
 
-export const getCompanyRatingById = async (
-  params: GetCompanyRatingByIdParams
-) => {
+export const getCompanyRatingById = async (params: GetCompanyRatingByIdParams) => {
   const { id } = GetCompanyRatingByIdParamsSchema.parse(params);
   // const res = await apiClient.get<GetCompanyRatingByIdResponse>(
   //   `/company_rating/rate/${id}`
@@ -32,9 +42,7 @@ export const addCompanyRating = async (
   return AddCompanyRatingResponseSchemaDtoToData.parse(res.data);
 };
 
-export const deleteCompanyRating = async (
-  params: DeleteCompanyRatingParams
-) => {
+export const deleteCompanyRating = async (params: DeleteCompanyRatingParams) => {
   const { id } = DeleteCompanyRatingParamsSchema.parse(params);
   // const res = await apiClient.delete<DeleteCompanyRatingResponse>(
   //   `/company_rating/delete_rate/${id}`

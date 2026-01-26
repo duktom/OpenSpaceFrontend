@@ -1,4 +1,10 @@
-import { GetUserByIdDataSchema, RegisterUserBody, RegisterUserDataSchema, User, UserDtoSchema } from './user.types';
+import {
+  GetUserByIdDataSchema,
+  RegisterUserBody,
+  RegisterUserDataSchema,
+  User,
+  UserDtoSchema,
+} from './user.types';
 
 export const UserDtoToEntitySchema = UserDtoSchema.transform(
   (data) =>

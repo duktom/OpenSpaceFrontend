@@ -1,4 +1,11 @@
-import { Company, CompanySchemaDto, GetCompanyByIdDataSchema, RegisterCompanyBody, RegisterCompanyDataSchema, RegisterCompanyResponseSchema } from './company.types';
+import {
+  Company,
+  CompanySchemaDto,
+  GetCompanyByIdDataSchema,
+  RegisterCompanyBody,
+  RegisterCompanyDataSchema,
+  RegisterCompanyResponseSchema,
+} from './company.types';
 
 export const CompanyDtoToEntitySchema = CompanySchemaDto.transform(
   (data) =>
@@ -27,10 +34,12 @@ export const RegisterCompanyDataToDtoSchema = RegisterCompanyDataSchema.transfor
     ein: data.ein,
   } satisfies RegisterCompanyBody,
 }));
-export const RegisterCompanyResponseSchemaDtoToData = RegisterCompanyResponseSchema.transform((data) => ({
-  accountId: data.account_id,
-  companyId: data.company_id,
-}));
+export const RegisterCompanyResponseSchemaDtoToData = RegisterCompanyResponseSchema.transform(
+  (data) => ({
+    accountId: data.account_id,
+    companyId: data.company_id,
+  })
+);
 
 export const GetCompanyByIdDataToDtoSchema = GetCompanyByIdDataSchema.transform((data) => ({
   params: {

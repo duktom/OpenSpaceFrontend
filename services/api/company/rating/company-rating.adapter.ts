@@ -1,4 +1,15 @@
-import { AddCompanyRatingBody, AddCompanyRatingDataSchema, AddCompanyRatingParams, AddCompanyRatingResponseSchema, CompanyRating, CompanyRatingSchemaDto, DeleteCompanyRatingDataSchema, DeleteCompanyRatingParams, GetCompanyRatingByIdDataSchema, GetCompanyRatingByIdParams } from "./company-rating.types";
+import {
+  AddCompanyRatingBody,
+  AddCompanyRatingDataSchema,
+  AddCompanyRatingParams,
+  AddCompanyRatingResponseSchema,
+  CompanyRating,
+  CompanyRatingSchemaDto,
+  DeleteCompanyRatingDataSchema,
+  DeleteCompanyRatingParams,
+  GetCompanyRatingByIdDataSchema,
+  GetCompanyRatingByIdParams,
+} from './company-rating.types';
 
 export const CompanyRatingDtoToEntitySchema = CompanyRatingSchemaDto.transform(
   (data) =>
@@ -9,11 +20,13 @@ export const CompanyRatingDtoToEntitySchema = CompanyRatingSchemaDto.transform(
     }) satisfies CompanyRating
 );
 
-export const GetCompanyRatingByIdDataToDtoSchema = GetCompanyRatingByIdDataSchema.transform((data) => ({
-  params: {
-    id: data.id,
-  } satisfies GetCompanyRatingByIdParams,
-}));
+export const GetCompanyRatingByIdDataToDtoSchema = GetCompanyRatingByIdDataSchema.transform(
+  (data) => ({
+    params: {
+      id: data.id,
+    } satisfies GetCompanyRatingByIdParams,
+  })
+);
 
 export const AddCompanyRatingDataToDtoSchema = AddCompanyRatingDataSchema.transform((data) => ({
   params: {
@@ -23,14 +36,18 @@ export const AddCompanyRatingDataToDtoSchema = AddCompanyRatingDataSchema.transf
     score: data.score,
   } satisfies AddCompanyRatingBody,
 }));
-export const AddCompanyRatingResponseSchemaDtoToData = AddCompanyRatingResponseSchema.transform((data) => ({
-  rating: data.rating,
-  company_id: data.company_id,
-  ratings_count: data.ratings_count,
-}));
+export const AddCompanyRatingResponseSchemaDtoToData = AddCompanyRatingResponseSchema.transform(
+  (data) => ({
+    rating: data.rating,
+    company_id: data.company_id,
+    ratings_count: data.ratings_count,
+  })
+);
 
-export const DeleteCompanyRatingDataToDtoSchema = DeleteCompanyRatingDataSchema.transform((data) => ({
-  params: {
-    id: data.id,
-  } satisfies DeleteCompanyRatingParams,
-}));
+export const DeleteCompanyRatingDataToDtoSchema = DeleteCompanyRatingDataSchema.transform(
+  (data) => ({
+    params: {
+      id: data.id,
+    } satisfies DeleteCompanyRatingParams,
+  })
+);

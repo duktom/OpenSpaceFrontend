@@ -28,7 +28,7 @@ type StarsRatingProps = {
   rating: number;
 };
 
-function StarsRating({rating}: StarsRatingProps) {
+function StarsRating({ rating }: StarsRatingProps) {
   return (
     <View style={{ flexDirection: 'row', gap: 2 }}>
       {[1, 2, 3, 4, 5].map((star) => (
@@ -38,18 +38,30 @@ function StarsRating({rating}: StarsRatingProps) {
       ))}
     </View>
   );
-};
+}
 
 export default function CompanyProfileScreen() {
   const { id } = useLocalSearchParams();
   const companyId = Number(Array.isArray(id) ? id[0] : id);
   const theme = useAppTheme();
 
-  const { data: company, isLoading: isCompanyLoading, isError: isCompanyError, error: companyError } = api.company.queries.useGetCompanyById({ id: companyId });
-  const { data: companyRating, isLoading: isCompanyRatingLoading, isError: isCompanyRatingError, error: companyRatingError } = api.companyRating.queries.useGetCompanyRatingById({ id: companyId });
+  const {
+    data: company,
+    isLoading: isCompanyLoading,
+    isError: isCompanyError,
+    error: companyError,
+  } = api.company.queries.useGetCompanyById({ id: companyId });
+  const {
+    data: companyRating,
+    isLoading: isCompanyRatingLoading,
+    isError: isCompanyRatingError,
+    error: companyRatingError,
+  } = api.companyRating.queries.useGetCompanyRatingById({ id: companyId });
 
   if (isCompanyLoading || isCompanyRatingLoading) return <LoadingIconView />;
-  if (isCompanyError || !company || isCompanyRatingError || !companyRating) return <ErrorView error={companyError || companyRatingError} />;
+  if (isCompanyError || !company || isCompanyRatingError || !companyRating) {
+    return <ErrorView error={companyError || companyRatingError} />;
+  }
 
   return (
     <SafeView
@@ -67,7 +79,7 @@ export default function CompanyProfileScreen() {
         {/* Company header with logo and name */}
         <View style={{ marginHorizontal: 10, marginBottom: 20 }}>
           <View style={{ flexDirection: 'row', gap: 15, alignItems: 'flex-start' }}>
-            <Avatar 
+            <Avatar
               isVerified={MOCK_IS_VERIFIED}
               source={{ uri: company.profileImgLink ?? MOCK_DEFAULT_COMPANY_PROFILE_IMAGE }}
             />
@@ -91,17 +103,26 @@ export default function CompanyProfileScreen() {
               style={{
                 body: { color: theme.colors.text.base },
                 paragraph: { marginBottom: 8 },
-                strong: { fontWeight: 'bold' }
+                strong: { fontWeight: 'bold' },
               }}
             >
               {company.description}
             </Markdown>
           </View>
-        ): null}
+        ) : null}
 
         {/* Company rating section */}
         <View style={{ marginHorizontal: 10, marginVertical: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginLeft: 10, marginRight: 10 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 16,
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             <View style={{ alignItems: 'center' }}>
               <Text className="!font-bold" variant="displaySmall">
                 {companyRating.rating}
@@ -121,15 +142,15 @@ export default function CompanyProfileScreen() {
           </View>
 
           {/* User ratings horizontal scroll */}
-          <ScrollView 
-            horizontal 
+          <ScrollView
+            horizontal
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
             style={{ marginTop: 12 }}
           >
             <View style={{ flexDirection: 'row', gap: 12 }}>
               {MOCK_RATINGS.map((rating) => (
-                <View 
+                <View
                   key={rating.id}
                   style={{
                     width: 280,
@@ -140,7 +161,14 @@ export default function CompanyProfileScreen() {
                     borderWidth: 1,
                   }}
                 >
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      marginBottom: 8,
+                    }}
+                  >
                     <View style={{ flex: 1, flexDirection: 'row', gap: 8, alignItems: 'center' }}>
                       <View style={{ width: 48, height: 48 }}>
                         <Avatar source={{ uri: rating.avatar }} />
@@ -155,7 +183,10 @@ export default function CompanyProfileScreen() {
                       ⭐ {rating.rating}
                     </Text>
                   </View>
-                  <Text style={{ color: theme.colors.text.base, lineHeight: 18 }} variant="bodySmall">
+                  <Text
+                    style={{ color: theme.colors.text.base, lineHeight: 18 }}
+                    variant="bodySmall"
+                  >
                     {rating.text}
                   </Text>
                 </View>

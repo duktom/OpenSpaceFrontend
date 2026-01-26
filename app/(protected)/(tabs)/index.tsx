@@ -34,7 +34,7 @@ const TAB_BUTTONS_DATA: TabButtonData[] = [
     value: 'companyProfiles',
     Icon: CityIcon,
     Content: CompanyProfilesList,
-  }
+  },
 ];
 
 export default function HomeScreen() {

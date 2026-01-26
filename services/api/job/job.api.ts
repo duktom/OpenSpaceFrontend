@@ -9,7 +9,7 @@ import {
   ToggleFavoriteJobParams,
   ToggleFavoriteJobParamsSchema,
   ToggleFavoriteJobResponse,
-  ToggleFavoriteJobResponseSchema
+  ToggleFavoriteJobResponseSchema,
 } from './job.types';
 
 export const getJobById = async (params: GetJobByIdParams) => {
@@ -23,9 +23,7 @@ export const getAllJobs = async () => {
   return z.array(JobDtoToEntitySchema).parse(res.data);
 };
 
-export const toggleFavoriteJob = async (
-  params: ToggleFavoriteJobParams
-) => {
+export const toggleFavoriteJob = async (params: ToggleFavoriteJobParams) => {
   const { id } = ToggleFavoriteJobParamsSchema.parse(params);
   const res = await apiClient.get<ToggleFavoriteJobResponse>(`/job/favorite/${id}`);
   return ToggleFavoriteJobResponseSchema.parse(res.data);

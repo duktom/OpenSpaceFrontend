@@ -57,4 +57,3 @@ export const LogoutResponseSchema = z.object({
   message: z.string().trim().nonempty(),
 });
 export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
-

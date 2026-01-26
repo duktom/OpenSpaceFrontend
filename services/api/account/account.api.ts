@@ -1,11 +1,15 @@
 import { apiClient } from '../api-client';
-import { GetTokenResponseSchemaDtoToData, LoginResponseSchemaDtoToData, LogoutResponseSchemaDtoToData } from './account.adapter';
+import {
+  GetTokenResponseSchemaDtoToData,
+  LoginResponseSchemaDtoToData,
+  LogoutResponseSchemaDtoToData,
+} from './account.adapter';
 import {
   GetTokenResponse,
   LoginBody,
   LoginBodySchema,
   LoginResponse,
-  LogoutResponse
+  LogoutResponse,
 } from './account.types';
 
 export const getToken = async () => {

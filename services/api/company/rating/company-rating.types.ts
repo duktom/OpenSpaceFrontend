@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { CompanySchema, CompanySchemaDto } from "../company.types";
+import { z } from 'zod';
+import { CompanySchema, CompanySchemaDto } from '../company.types';
 
 const BaseCompanyRatingSchema = z.object({
   rating: z.number().min(0).max(5),
@@ -34,7 +34,9 @@ export const AddCompanyRatingBodySchema = z.object({
   score: z.number().min(1).max(5),
 });
 export type AddCompanyRatingBody = z.infer<typeof AddCompanyRatingBodySchema>;
-export const AddCompanyRatingDataSchema = AddCompanyRatingParamsSchema.extend(AddCompanyRatingBodySchema.shape);
+export const AddCompanyRatingDataSchema = AddCompanyRatingParamsSchema.extend(
+  AddCompanyRatingBodySchema.shape
+);
 export type AddCompanyRatingData = z.infer<typeof AddCompanyRatingDataSchema>;
 export const AddCompanyRatingResponseSchema = CompanyRatingSchemaDto;
 export type AddCompanyRatingResponse = z.infer<typeof AddCompanyRatingResponseSchema>;

@@ -1,5 +1,5 @@
-import { ACCOUNT_KEYS } from "@/services/api/account/hooks/account.keys";
-import { GetUserByIdParams } from "../user.types";
+import { ACCOUNT_KEYS } from '@/services/api/account/hooks/account.keys';
+import { GetUserByIdParams } from '../user.types';
 
 export const USER_KEYS = {
   all: [...ACCOUNT_KEYS.all, 'user'] as const,

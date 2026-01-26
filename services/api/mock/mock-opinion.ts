@@ -1,10 +1,10 @@
-export type Opinion ={
+export type Opinion = {
   id: number;
   author: string;
   avatar: string;
   rating: number;
   text: string;
-}
+};
 
 export const MOCK_RATINGS: Opinion[] = [
   {

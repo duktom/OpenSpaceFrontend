@@ -2,9 +2,7 @@ import { ErrorView } from '@/components/error/error-view';
 import { LoadingIconView } from '@/components/loading/loading-icon-view';
 import { getApiErrorMessages } from '@/helpers/get-api-error-messages';
 import { api } from '@/services/api';
-import {
-  LoginData
-} from '@/services/api/account/account.types';
+import { LoginData } from '@/services/api/account/account.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
 import { RegisterCompanyData } from '../api/company/company.types';
