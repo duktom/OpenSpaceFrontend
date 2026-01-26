@@ -24,7 +24,7 @@ export const UserSchema = BaseUserSchema.extend({
   firstName: z.string().trim().nonempty(),
   lastName: z.string().trim().nonempty(),
   birthDate: z.date(),
-  profileImgId: z.string().trim().nonempty(),
+  profileImgId: z.string().trim().nullable(),
   profileImgLink: z.url().nullable(),
 });
 export type User = z.infer<typeof UserSchema>;

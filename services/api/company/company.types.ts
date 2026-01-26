@@ -36,7 +36,7 @@ export type CompanyDto = z.infer<typeof CompanySchemaDto>;
 
 export const CompanySchema = BaseCompanySchema.extend({
   address: CompanyAddress,
-  profileImgId: z.string().trim().nonempty(),
+  profileImgId: z.string().trim().nullable(),
   profileImgLink: z.url().nullable(),
 });
 export type Company = z.infer<typeof CompanySchema>;
