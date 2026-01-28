@@ -1,12 +1,12 @@
 import { useRegisterCompanyMutation } from '../../company/hooks/use-register-company';
 import { useRegisterUserMutation } from '../../user/hooks/use-register-user';
 import { ACCOUNT_KEYS } from './account.keys';
-import { useGetTokenQuery } from './use-get-token';
+import { useGetMeQuery } from './use-get-me';
 import { useLoginMutation } from './use-login';
 import { useLogoutMutation } from './use-logout';
 
 export const queries = {
-  useGetToken: useGetTokenQuery,
+  useGetMe: useGetMeQuery,
 };
 
 export const mutations = {

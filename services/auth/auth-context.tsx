@@ -2,7 +2,7 @@ import { ErrorView } from '@/components/error/error-view';
 import { LoadingIconView } from '@/components/loading/loading-icon-view';
 import { getApiErrorMessages } from '@/helpers/get-api-error-messages';
 import { api } from '@/services/api';
-import { LoginData } from '@/services/api/account/account.types';
+import { AccountType, LoginData } from '@/services/api/account/account.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
 import { RegisterCompanyData } from '../api/company/company.types';
@@ -11,6 +11,7 @@ import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {
   isAuthenticated: boolean;
+  accountType: AccountType | undefined;
   registerUserThenLogin: (registerUserData: RegisterUserData) => Promise<string | null>;
   registerCompanyThenLogin: (registerCompanyData: RegisterCompanyData) => Promise<string | null>;
   login: (loginData: LoginData) => Promise<string | null>;
@@ -109,12 +110,12 @@ const useAuthRegisterCompany = (): TAuthContext['registerCompanyThenLogin'] => {
 };
 
 const useAuthToken = () => {
-  const { data: tokenData, isLoading, isError } = api.account.queries.useGetToken();
+  const { data: meData, isLoading, isError } = api.account.queries.useGetMe();
 
   useEffect(() => {
-    if (!tokenData?.accessToken) return;
-    saveAuthToken(tokenData.accessToken);
-  }, [tokenData?.accessToken]);
+    if (!meData?.accessToken) return;
+    saveAuthToken(meData.accessToken);
+  }, [meData]);
 
   useEffect(() => {
     if (!isError) return;
@@ -122,13 +123,14 @@ const useAuthToken = () => {
   }, [isError]);
 
   return {
-    isAuthenticated: Boolean(tokenData),
+    accountType: meData?.accountType,
+    isAuthenticated: Boolean(meData),
     isLoading,
   };
 };
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const { isLoading: isTokenLoading, isAuthenticated } = useAuthToken();
+  const { isLoading: isTokenLoading, isAuthenticated, accountType } = useAuthToken();
   const login = useAuthLogin();
   const {
     logout,
@@ -158,6 +160,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        accountType,
         login,
         logout,
         registerUserThenLogin,

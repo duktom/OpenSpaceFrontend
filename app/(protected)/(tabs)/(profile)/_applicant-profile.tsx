@@ -51,7 +51,7 @@ type Skills = {
 
 const generateUUID = () => Math.random().toString(36).slice(2);
 
-export default function ProfileScreen() {
+export default function ApplicantProfileScreen() {
   const [tab, setTab] = useState<Tab>('data');
   const [settingsScreen, setSettingsScreen] = useState<SettingsScreen>('main');
 

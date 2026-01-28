@@ -48,7 +48,7 @@ type JobPost = {
 
 const uid = () => Math.random().toString(36).slice(2);
 
-export default function ProfileScreen() {
+export default function CompanyProfileScreen() {
   const [settingsScreen, setSettingsScreen] = useState<SettingsScreen>('main');
   const [tab, setTab] = useState<TopTab>('company');
 

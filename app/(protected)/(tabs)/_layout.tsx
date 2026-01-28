@@ -1,4 +1,3 @@
-// import HomeIcon from '@/assets/svgs/home-icon.svg';
 import { HomeIcon } from '@/assets/svgs/home-icon';
 import { OutlineHeartIcon } from '@/assets/svgs/outline-heart-icon';
 import { UserIcon } from '@/assets/svgs/user-icon.';
@@ -39,19 +38,15 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="(profile)/profile"
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, size }) => <UserIcon color={color} height={size} width={size} />,
         }}
       />
-      <Tabs.Screen
-        name="company-profile"
-        options={{
-          title: 'Company Profile',
-          tabBarIcon: ({ color, size }) => <UserIcon color={color} height={size} width={size} />,
-        }}
-      />
+      {/* Hide these routes from tabs - they're only used as components */}
+      <Tabs.Screen name="(profile)/_company-profile" options={{ href: null }} />
+      <Tabs.Screen name="(profile)/_applicant-profile" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -1,20 +1,20 @@
 import { apiClient } from '../api-client';
 import {
-  GetTokenResponseSchemaDtoToData,
+  GetMeResponseSchemaDtoToData,
   LoginResponseSchemaDtoToData,
   LogoutResponseSchemaDtoToData,
 } from './account.adapter';
 import {
-  GetTokenResponse,
+  GetMeResponse,
   LoginBody,
   LoginBodySchema,
   LoginResponse,
   LogoutResponse,
 } from './account.types';
 
-export const getToken = async () => {
-  const res = await apiClient.get<GetTokenResponse>('/account/me');
-  return GetTokenResponseSchemaDtoToData.parse(res.data);
+export const getMe = async () => {
+  const res = await apiClient.get<GetMeResponse>('/account/me');
+  return GetMeResponseSchemaDtoToData.parse(res.data);
 };
 
 export const login = async (body: LoginBody) => {

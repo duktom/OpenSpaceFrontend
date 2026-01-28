@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const AccountTypeSchema = z.enum(['applicant', 'admin']); // 'recruiter' is no longer used
+export type AccountType = z.infer<typeof AccountTypeSchema>;
 export const AuthTokenSchema = z.string().trim().nonempty();
 
 // Both FE & BE
@@ -27,11 +28,12 @@ export const AccountSchema = BaseAccountSchema.extend({
 export type Account = z.infer<typeof AccountSchema>;
 
 // Get token
-export const GetTokenResponseSchema = z.object({
+export const GetMeResponseSchema = z.object({
+  account_type: AccountTypeSchema,
   access_token: AuthTokenSchema,
   message: z.string().trim().nonempty(),
 });
-export type GetTokenResponse = z.infer<typeof GetTokenResponseSchema>;
+export type GetMeResponse = z.infer<typeof GetMeResponseSchema>;
 
 // Login
 // Frontend DATA

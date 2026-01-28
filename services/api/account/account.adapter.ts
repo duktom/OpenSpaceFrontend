@@ -2,7 +2,7 @@ import { getDateOrNull } from '@/helpers/get-date-or-null';
 import {
   Account,
   AccountDtoSchema,
-  GetTokenResponseSchema,
+  GetMeResponseSchema,
   LoginBody,
   LoginDataSchema,
   LoginResponseSchema,
@@ -19,7 +19,8 @@ export const AccountDtoToEntitySchema = AccountDtoSchema.transform(
     }) satisfies Account
 );
 
-export const GetTokenResponseSchemaDtoToData = GetTokenResponseSchema.transform((data) => ({
+export const GetMeResponseSchemaDtoToData = GetMeResponseSchema.transform((data) => ({
+  accountType: data.account_type,
   accessToken: data.access_token,
   message: data.message,
 }));
