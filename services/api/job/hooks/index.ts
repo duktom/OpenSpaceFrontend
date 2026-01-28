@@ -1,4 +1,5 @@
 import { JOB_KEYS } from './job.keys';
+import { useCreateJobMutation } from './use-create-job';
 import { useGetAllJobsQuery } from './use-get-all-jobs';
 import { useGetJobByIdQuery } from './use-get-job-by-id';
 import { useToggleFavoriteJobMutation } from './use-toggle-favorite-job';
@@ -9,6 +10,7 @@ export const queries = {
 };
 
 export const mutations = {
+  useCreateJob: useCreateJobMutation,
   useToggleFavoriteJob: useToggleFavoriteJobMutation,
 };
 

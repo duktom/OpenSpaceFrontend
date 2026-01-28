@@ -7,11 +7,11 @@ import { LoadingIconView } from '@/components/loading/loading-icon-view';
 import { OpacityButton } from '@/components/opacity-button';
 import { Rating } from '@/components/rating';
 import { SafeView } from '@/components/safe-view';
+import { formatCompanyAddress } from '@/helpers/company/format-company-location';
 import { getFormattedCurrency } from '@/helpers/get-formatted-currency';
 import { getImageSizeAccordingToScreenWidth } from '@/helpers/get-image-size-according-to-screen-width';
 import { useAppTheme } from '@/providers/app-theme-provider';
 import { api } from '@/services/api';
-import { Company } from '@/services/api/company/company.types';
 import { Job } from '@/services/api/job/job.types';
 import { MOCK_DEFAULT_COMPANY_PROFILE_IMAGE } from '@/services/api/mock/mock-company';
 import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
@@ -19,17 +19,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { Divider, Text } from 'react-native-paper';
-
-const formatCompanyLocation = ({
-  city,
-  street,
-  buildingNumber,
-  apartmentNumber,
-  postalCode,
-}: Company['address']): string => {
-  const building = buildingNumber && apartmentNumber ? `${buildingNumber}/${apartmentNumber}` : '';
-  return `${city ?? ''} ${street ?? ''} ${building} ${postalCode ?? ''}`;
-};
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -97,7 +86,7 @@ export default function JobDetailsScreen() {
           </Text>
           <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
           <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>
-            {formatCompanyLocation(company.address)}
+            {formatCompanyAddress(company.address)}
           </Text>
         </TouchableOpacity>
 

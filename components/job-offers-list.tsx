@@ -12,6 +12,8 @@ import { Centered } from './centered';
 import { ErrorView } from './error/error-view';
 import { Rating } from './rating';
 import { ShimmerSkeleton } from './shimmer-skeleton';
+import { formatCompanyAddress } from '@/helpers/company/format-company-location';
+import { MOCK_DEFAULT_JOB_PROFILE_IMAGE } from '@/services/api/mock/mock-job';
 
 export function JobOffersList() {
   const { data: jobs, isLoading, isError, error } = api.job.queries.useGetAllJobs();
@@ -45,6 +47,15 @@ type JobOfferProps = {
 function JobOffer({ job }: JobOfferProps) {
   const theme = useAppTheme();
   const router = useRouter();
+  const {
+    data: company,
+    isLoading,
+    isError,
+    error,
+  } = api.company.queries.useGetCompanyById({ id: job.companyId });
+
+  if (isLoading) return <JobOfferSkeleton />;
+  if (isError || !company) return <ErrorView error={error} />;
 
   const redirectToJobDetails = () => {
     router.push(`/job/${job.id}`);
@@ -65,7 +76,7 @@ function JobOffer({ job }: JobOfferProps) {
     >
       <Image
         resizeMode="contain"
-        source={mockJobImage}
+        source={{ uri: job.postingImgLink ?? MOCK_DEFAULT_JOB_PROFILE_IMAGE }}
         style={{
           ...getImageSizeAccordingToScreenWidth(mockJobImage, 0.91),
           borderTopRightRadius: 10,
@@ -82,16 +93,14 @@ function JobOffer({ job }: JobOfferProps) {
       >
         <View>
           <Text className="!font-bold" variant="titleLarge">
-            Microsoft
+            {company.name}
           </Text>
-          <Text style={{ marginTop: -1, color: theme.colors.text.base }}>
-            Database administrator
-          </Text>
+          <Text style={{ marginTop: -1, color: theme.colors.text.base }}>{job.title}</Text>
           <Text style={{ marginTop: 4, color: theme.colors.text.muted }}>
-            {'Al. Jerozolimskie 195A, 02-222 Warszawa'}
+            {formatCompanyAddress(company.address)}
           </Text>
           <Text className="!font-bold mt-2" variant="bodyLarge">
-            {getFormattedCurrency(6000)}
+            {getFormattedCurrency(job.payoff)}
           </Text>
         </View>
         <View>

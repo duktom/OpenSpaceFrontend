@@ -26,7 +26,7 @@ export const RegisterUserDataToDtoSchema = RegisterUserDataSchema.transform((dat
     last_name: data.lastName,
     email: data.email,
     password: data.password,
-    birth_date: data.birthDate ? data.birthDate.toISOString() : data.birthDate,
+    birth_date: data.birthDate.toISOString().split('T')[0],
   } satisfies RegisterUserBody,
 }));
 

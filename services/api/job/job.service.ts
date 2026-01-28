@@ -1,8 +1,12 @@
-import { GetJobByIdDataToDtoSchema } from './job.adapter';
+import {
+  CreateJobDataToDtoSchema,
+  GetJobByIdDataToDtoSchema,
+  ToggleFavoriteJobDataToDtoSchema,
+} from './job.adapter';
 import * as api from './job.api';
-import { GetJobByIdParams, ToggleFavoriteJobData, ToggleFavoriteJobDataSchema } from './job.types';
+import { CreateJobData, GetJobByIdData, ToggleFavoriteJobData } from './job.types';
 
-export const getJobById = async (data: GetJobByIdParams) => {
+export const getJobById = async (data: GetJobByIdData) => {
   const { params } = GetJobByIdDataToDtoSchema.parse(data);
   return await api.getJobById(params);
 };
@@ -12,6 +16,11 @@ export const getAllJobs = async () => {
 };
 
 export const toggleFavoriteJob = async (data: ToggleFavoriteJobData) => {
-  const { params } = ToggleFavoriteJobDataSchema.parse(data);
+  const { params } = ToggleFavoriteJobDataToDtoSchema.parse(data);
   return await api.toggleFavoriteJob(params);
+};
+
+export const createJob = async (data: CreateJobData) => {
+  const { body } = CreateJobDataToDtoSchema.parse(data);
+  return await api.createJob(body);
 };

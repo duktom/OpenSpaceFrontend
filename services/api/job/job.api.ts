@@ -2,6 +2,9 @@ import { z } from 'zod';
 import { apiClient } from '../api-client';
 import { JobDtoToEntitySchema } from './job.adapter';
 import {
+  CreateJobBody,
+  CreateJobBodySchema,
+  CreateJobResponse,
   GetAllJobsResponse,
   GetJobByIdParams,
   GetJobByIdParamsSchema,
@@ -27,4 +30,10 @@ export const toggleFavoriteJob = async (params: ToggleFavoriteJobParams) => {
   const { id } = ToggleFavoriteJobParamsSchema.parse(params);
   const res = await apiClient.get<ToggleFavoriteJobResponse>(`/job/favorite/${id}`);
   return ToggleFavoriteJobResponseSchema.parse(res.data);
+};
+
+export const createJob = async (body: CreateJobBody) => {
+  const validatedBody = CreateJobBodySchema.parse(body);
+  const res = await apiClient.post<CreateJobResponse>('/job/add', validatedBody);
+  return JobDtoToEntitySchema.parse(res.data);
 };

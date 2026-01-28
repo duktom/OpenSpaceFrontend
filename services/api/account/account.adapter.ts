@@ -2,12 +2,14 @@ import { getDateOrNull } from '@/helpers/get-date-or-null';
 import {
   Account,
   AccountDtoSchema,
-  GetMeResponseSchema,
   LoginBody,
   LoginDataSchema,
   LoginResponseSchema,
   LogoutResponseSchema,
 } from './account.types';
+import { GetMeResponseSchema } from './me.types';
+import { CompanyDtoToEntitySchema } from '../company/company.adapter';
+import { UserDtoToEntitySchema } from '../user/user.adapter';
 
 export const AccountDtoToEntitySchema = AccountDtoSchema.transform(
   (data) =>
@@ -20,7 +22,10 @@ export const AccountDtoToEntitySchema = AccountDtoSchema.transform(
 );
 
 export const GetMeResponseSchemaDtoToData = GetMeResponseSchema.transform((data) => ({
+  accountId: data.account_id,
   accountType: data.account_type,
+  user: data.user ? UserDtoToEntitySchema.parse(data.user) : null,
+  company: data.company ? CompanyDtoToEntitySchema.parse(data.company) : null,
   accessToken: data.access_token,
   message: data.message,
 }));

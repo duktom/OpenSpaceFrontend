@@ -12,6 +12,7 @@ import { Button, SegmentedButtons, Text } from 'react-native-paper';
 import { z } from 'zod';
 import { RegisterCompanyDataSchema } from '../api/company/company.types';
 import { RegisterUserDataSchema } from '../api/user/user.types';
+import { MOCK_PAST_DATE } from '../api/mock/mock-past-date';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FormValuesSchema = z.union([
@@ -76,7 +77,7 @@ export function AuthForm() {
       // Register user
       firstName: '',
       lastName: '',
-      birthDate: null,
+      birthDate: new Date(MOCK_PAST_DATE),
       // Register company
       ein: '',
       name: '',

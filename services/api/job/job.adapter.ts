@@ -1,5 +1,13 @@
 import { getDateOrNull } from '@/helpers/get-date-or-null';
-import { GetJobByIdDataSchema, GetJobByIdParams, Job, JobSchemaDto } from './job.types';
+import {
+  CreateJobDataSchema,
+  GetJobByIdDataSchema,
+  GetJobByIdParams,
+  Job,
+  JobSchemaDto,
+  ToggleFavoriteJobDataSchema,
+  ToggleFavoriteJobParams,
+} from './job.types';
 
 export const JobDtoToEntitySchema = JobSchemaDto.transform(
   (data) =>
@@ -20,4 +28,20 @@ export const GetJobByIdDataToDtoSchema = GetJobByIdDataSchema.transform((data) =
   params: {
     id: data.id,
   } satisfies GetJobByIdParams,
+}));
+
+export const ToggleFavoriteJobDataToDtoSchema = ToggleFavoriteJobDataSchema.transform((data) => ({
+  params: {
+    id: data.id,
+  } satisfies ToggleFavoriteJobParams,
+}));
+
+export const CreateJobDataToDtoSchema = CreateJobDataSchema.transform((data) => ({
+  body: {
+    company_id: data.companyId,
+    title: data.title,
+    description: data.description,
+    payoff: data.payoff,
+    expiry_date: data.expiryDate ? data.expiryDate.toISOString() : null,
+  },
 }));

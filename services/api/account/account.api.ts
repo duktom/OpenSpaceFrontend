@@ -4,13 +4,8 @@ import {
   LoginResponseSchemaDtoToData,
   LogoutResponseSchemaDtoToData,
 } from './account.adapter';
-import {
-  GetMeResponse,
-  LoginBody,
-  LoginBodySchema,
-  LoginResponse,
-  LogoutResponse,
-} from './account.types';
+import { LoginBody, LoginBodySchema, LoginResponse, LogoutResponse } from './account.types';
+import { GetMeResponse } from './me.types';
 
 export const getMe = async () => {
   const res = await apiClient.get<GetMeResponse>('/account/me');

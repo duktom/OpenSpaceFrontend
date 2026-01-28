@@ -12,7 +12,7 @@ export const UserDtoSchema = BaseUserSchema.extend({
   account_id: AccountDtoSchema.shape.id,
   first_name: z.string().trim().nonempty(),
   last_name: z.string().trim().nonempty(),
-  birth_date: z.iso.datetime({ offset: true }),
+  birth_date: z.iso.date(),
   profile_img_id: z.string().trim().nullable(),
   profile_img_link: z.url().nullable(),
 });
@@ -35,7 +35,7 @@ export const RegisterUserDataSchema = LoginBodySchema.extend({
   confirmPassword: z.string().trim().nonempty('Please confirm your password'),
   firstName: z.string().trim().nonempty('First name is required'),
   lastName: z.string().trim().nonempty('Last name is required'),
-  birthDate: z.date().nullable(),
+  birthDate: z.date(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ['confirmPassword'],
@@ -54,7 +54,7 @@ export type GetUserByIdData = z.infer<typeof GetUserByIdDataSchema>;
 export const RegisterUserBodySchema = LoginBodySchema.extend({
   first_name: z.string().trim().nonempty('First name is required'),
   last_name: z.string().trim().nonempty('Last name is required'),
-  birth_date: z.iso.datetime({ offset: true }).nullable(),
+  birth_date: z.iso.date(),
 });
 export type RegisterUserBody = z.infer<typeof RegisterUserBodySchema>;
 export const RegisterUserResponseSchema = z.object({

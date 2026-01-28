@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-sort-props */
 import { Ionicons } from '@expo/vector-icons';
 import React, { useMemo, useState } from 'react';
 import {
@@ -124,7 +123,7 @@ export default function ApplicantProfileScreen() {
       <View style={styles.header}>
         {isInSettingsSubScreen ? (
           <TouchableOpacity style={styles.backBtn} onPress={goBackFromSettings}>
-            <Ionicons name="arrow-back" size={22} color="#000" />
+            <Ionicons color="#000" name="arrow-back" size={22} />
           </TouchableOpacity>
         ) : (
           <View style={styles.backBtnPlaceholder} />
@@ -170,10 +169,10 @@ export default function ApplicantProfileScreen() {
         {tab === 'data' ? (
           <YourData
             avatar={account.avatar}
-            fullName={fullName}
-            email={account.email}
-            phone={basic.phone}
             description={basic.description}
+            email={account.email}
+            fullName={fullName}
+            phone={basic.phone}
           />
         ) : null}
 
@@ -235,7 +234,7 @@ function TopTab({
 }) {
   return (
     <TouchableOpacity style={styles.topTab} onPress={onPress}>
-      <Ionicons name={icon} size={18} color={active ? '#000' : '#666'} />
+      <Ionicons color={active ? '#000' : '#666'} name={icon} size={18} />
       <Text style={[styles.topTabLabel, active && styles.topTabLabelActive]}>{label}</Text>
       <View style={[styles.topTabUnderline, active && styles.topTabUnderlineActive]} />
     </TouchableOpacity>
@@ -260,7 +259,7 @@ function YourData({
       <View style={styles.avatarWrap}>
         <Image source={{ uri: avatar }} style={styles.avatar} />
         <View style={styles.avatarBadge}>
-          <Ionicons name="heart" size={14} color="#fff" />
+          <Ionicons color="#fff" name="heart" size={14} />
         </View>
       </View>
 
@@ -309,7 +308,7 @@ function BasicDataEditor({
   return (
     <View style={styles.form}>
       <TouchableOpacity style={styles.bigPlus} onPress={onSave}>
-        <Ionicons name="add" size={28} color="#000" />
+        <Ionicons color="#000" name="add" size={28} />
       </TouchableOpacity>
 
       <LabeledInput
@@ -322,22 +321,22 @@ function BasicDataEditor({
         value={basic.lastName}
         onChangeText={(v) => onChange({ ...basic, lastName: v })}
       />
-      <LabeledInput label="E-mail:" value={accountEmail} readOnly />
+      <LabeledInput readOnly label="E-mail:" value={accountEmail} />
       <LabeledInput
+        keyboardType="phone-pad"
         label="Phone number:"
         value={basic.phone}
         onChangeText={(v) => onChange({ ...basic, phone: v })}
-        keyboardType="phone-pad"
       />
 
       <View style={styles.textAreaBlock}>
         <Text style={styles.inputLabel}>Profile description:</Text>
         <TextInput
+          multiline
           style={styles.textArea}
+          textAlignVertical="top"
           value={basic.description}
           onChangeText={(v) => onChange({ ...basic, description: v })}
-          multiline
-          textAlignVertical="top"
         />
       </View>
     </View>
@@ -366,36 +365,36 @@ function EducationEditor({
   return (
     <View style={styles.form}>
       {items.map((it) => (
-        <View style={styles.card} key={it.id}>
+        <View key={it.id} style={styles.card}>
           <LabeledInput
             label="Name of educational institution"
+            placeholder="—"
             value={it.school}
             onChangeText={(v) => update(it.id, { school: v })}
-            placeholder="—"
           />
           <LabeledInput
             label="Degree"
+            placeholder="—"
             value={it.degree}
             onChangeText={(v) => update(it.id, { degree: v })}
-            placeholder="—"
           />
           <View style={styles.row2}>
             <SmallInput
+              placeholder="Start date"
               value={it.startDate}
               onChangeText={(v) => update(it.id, { startDate: v })}
-              placeholder="Start date"
             />
             <SmallInput
+              placeholder="End date"
               value={it.endDate}
               onChangeText={(v) => update(it.id, { endDate: v })}
-              placeholder="End date"
             />
           </View>
         </View>
       ))}
 
       <TouchableOpacity style={styles.plusFab} onPress={add}>
-        <Ionicons name="add" size={28} color="#000" />
+        <Ionicons color="#000" name="add" size={28} />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
@@ -434,44 +433,44 @@ function ExperienceEditor({
   return (
     <View style={styles.form}>
       {items.map((it) => (
-        <View style={styles.card} key={it.id}>
+        <View key={it.id} style={styles.card}>
           <LabeledInput
             label="Workplace name"
+            placeholder="—"
             value={it.company}
             onChangeText={(v) => update(it.id, { company: v })}
-            placeholder="—"
           />
 
           <View style={styles.row2}>
             <SmallInput
+              placeholder="Role"
               value={it.role}
               onChangeText={(v) => update(it.id, { role: v })}
-              placeholder="Role"
             />
             <SmallInput
+              placeholder="Start date"
               value={it.startDate}
               onChangeText={(v) => update(it.id, { startDate: v })}
-              placeholder="Start date"
             />
           </View>
 
           <View style={styles.row2}>
             <SmallInput
+              placeholder="Contract type"
               value={it.contractType}
               onChangeText={(v) => update(it.id, { contractType: v })}
-              placeholder="Contract type"
             />
             <SmallInput
+              placeholder="End date"
               value={it.endDate}
               onChangeText={(v) => update(it.id, { endDate: v })}
-              placeholder="End date"
             />
           </View>
         </View>
       ))}
 
       <TouchableOpacity style={styles.plusFab} onPress={add}>
-        <Ionicons name="add" size={28} color="#000" />
+        <Ionicons color="#000" name="add" size={28} />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.saveLink} onPress={onSave}>
@@ -535,20 +534,20 @@ function SkillsEditor({
               setNewValue('');
             }}
           >
-            <Ionicons name="add" size={18} color="#000" />
+            <Ionicons color="#000" name="add" size={18} />
           </TouchableOpacity>
         </View>
 
         {addingLang && (
           <InlineAdd
+            placeholder="E.g. English C1"
             value={newValue}
-            onChange={setNewValue}
             onAdd={addLang}
             onCancel={() => {
               setAddingLang(false);
               setNewValue('');
             }}
-            placeholder="E.g. English C1"
+            onChange={setNewValue}
           />
         )}
       </View>
@@ -567,20 +566,20 @@ function SkillsEditor({
               setNewValue('');
             }}
           >
-            <Ionicons name="add" size={18} color="#000" />
+            <Ionicons color="#000" name="add" size={18} />
           </TouchableOpacity>
         </View>
 
         {addingProf && (
           <InlineAdd
+            placeholder="E.g. React Native"
             value={newValue}
-            onChange={setNewValue}
             onAdd={addProf}
             onCancel={() => {
               setAddingProf(false);
               setNewValue('');
             }}
-            placeholder="E.g. React Native"
+            onChange={setNewValue}
           />
         )}
       </View>
@@ -628,12 +627,12 @@ function LabeledInput({
     <View style={styles.field}>
       <Text style={styles.inputLabel}>{label}</Text>
       <TextInput
+        editable={!readOnly}
+        keyboardType={keyboardType}
+        placeholder={placeholder}
         style={[styles.input, readOnly && styles.inputReadOnly]}
         value={value}
-        editable={!readOnly}
         onChangeText={onChangeText}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
       />
     </View>
   );
@@ -650,10 +649,10 @@ function SmallInput({
 }) {
   return (
     <TextInput
+      placeholder={placeholder}
       style={styles.smallInput}
       value={value}
       onChangeText={onChangeText}
-      placeholder={placeholder}
     />
   );
 }
@@ -662,8 +661,8 @@ function Chip({ text, onRemove }: { text: string; onRemove: () => void }) {
   return (
     <View style={styles.chip}>
       <Text style={styles.chipText}>{text}</Text>
-      <TouchableOpacity onPress={onRemove} style={styles.chipX}>
-        <Ionicons name="close" size={14} color="#000" />
+      <TouchableOpacity style={styles.chipX} onPress={onRemove}>
+        <Ionicons color="#000" name="close" size={14} />
       </TouchableOpacity>
     </View>
   );
@@ -685,10 +684,10 @@ function InlineAdd({
   return (
     <View style={styles.inlineAdd}>
       <TextInput
+        placeholder={placeholder}
         style={styles.inlineAddInput}
         value={value}
         onChangeText={onChange}
-        placeholder={placeholder}
       />
       <TouchableOpacity style={styles.inlineAddBtn} onPress={onAdd}>
         <Text style={styles.inlineAddBtnText}>Add</Text>

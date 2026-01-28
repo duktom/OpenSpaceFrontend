@@ -5,13 +5,16 @@ import { api } from '@/services/api';
 import { AccountType, LoginData } from '@/services/api/account/account.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
-import { RegisterCompanyData } from '../api/company/company.types';
-import { RegisterUserData } from '../api/user/user.types';
+import { Company, RegisterCompanyData } from '../api/company/company.types';
+import { RegisterUserData, User } from '../api/user/user.types';
 import { deleteAuthToken, saveAuthToken } from './token-storage';
 
 type TAuthContext = {
   isAuthenticated: boolean;
-  accountType: AccountType | undefined;
+  accountId?: number;
+  accountType?: AccountType | null;
+  user?: User | null;
+  company?: Company | null;
   registerUserThenLogin: (registerUserData: RegisterUserData) => Promise<string | null>;
   registerCompanyThenLogin: (registerCompanyData: RegisterCompanyData) => Promise<string | null>;
   login: (loginData: LoginData) => Promise<string | null>;
@@ -36,13 +39,10 @@ const useAuthLogin = (): TAuthContext['login'] => {
     try {
       const response = await loginMutateAsync(loginData);
 
-      if (response?.accessToken) {
-        saveAuthToken(response.accessToken);
-        queryClient.setQueryData(api.account.keys.getToken(), response);
-      }
+      saveAuthToken(response.accessToken);
 
       await queryClient.invalidateQueries({
-        queryKey: api.account.keys.getToken(),
+        queryKey: api.account.keys.getMe(),
       });
 
       return null;
@@ -65,9 +65,9 @@ const useAuthLogout = () => {
     try {
       await logoutMutateAsync();
       await deleteAuthToken();
-      queryClient.setQueryData(api.account.keys.getToken(), null);
+      queryClient.setQueryData(api.account.keys.getMe(), null);
       queryClient.removeQueries({
-        queryKey: api.account.keys.getToken(),
+        queryKey: api.account.keys.getMe(),
       });
       return null;
     } catch (error) {
@@ -109,7 +109,7 @@ const useAuthRegisterCompany = (): TAuthContext['registerCompanyThenLogin'] => {
   };
 };
 
-const useAuthToken = () => {
+const useMe = () => {
   const { data: meData, isLoading, isError } = api.account.queries.useGetMe();
 
   useEffect(() => {
@@ -123,14 +123,24 @@ const useAuthToken = () => {
   }, [isError]);
 
   return {
+    accountId: meData?.accountId,
     accountType: meData?.accountType,
+    user: meData?.user,
+    company: meData?.company,
     isAuthenticated: Boolean(meData),
     isLoading,
   };
 };
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const { isLoading: isTokenLoading, isAuthenticated, accountType } = useAuthToken();
+  const {
+    isLoading: isTokenLoading,
+    isAuthenticated,
+    accountId,
+    accountType,
+    user,
+    company,
+  } = useMe();
   const login = useAuthLogin();
   const {
     logout,
@@ -160,7 +170,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        accountId,
         accountType,
+        user,
+        company,
         login,
         logout,
         registerUserThenLogin,

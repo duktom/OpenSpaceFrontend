@@ -27,14 +27,6 @@ export const AccountSchema = BaseAccountSchema.extend({
 });
 export type Account = z.infer<typeof AccountSchema>;
 
-// Get token
-export const GetMeResponseSchema = z.object({
-  account_type: AccountTypeSchema,
-  access_token: AuthTokenSchema,
-  message: z.string().trim().nonempty(),
-});
-export type GetMeResponse = z.infer<typeof GetMeResponseSchema>;
-
 // Login
 // Frontend DATA
 export const LoginDataSchema = AccountSchema.pick({ email: true }).extend({
