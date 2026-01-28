@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   Alert,
@@ -49,6 +49,7 @@ type JobPost = {
 const uid = () => Math.random().toString(36).slice(2);
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const [settingsScreen, setSettingsScreen] = useState<SettingsScreen>('main');
   const [tab, setTab] = useState<TopTab>('company');
 
@@ -127,18 +128,8 @@ export default function ProfileScreen() {
   }, [settingsScreen, tab]);
 
   const onAddPosting = useCallback(() => {
-    const next: JobPost = {
-      coverUrl:
-        'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80&auto=format&fit=crop',
-      id: uid(),
-      location: 'Warsaw',
-      rating: 4.5,
-      salary: '$ 4500',
-      title: 'New announcement',
-    };
-    setJobPosts((p) => [next, ...p]);
-    Alert.alert('Added', 'New ad added!');
-  }, []);
+    router.push('../company-profile/create-posting');
+  }, [router]);
 
   const onManagePosting = useCallback((post: JobPost) => {
     Alert.alert('Advertisement management', post.title);
